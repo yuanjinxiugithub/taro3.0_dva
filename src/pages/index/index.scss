@@ -1,0 +1,93 @@
+// 按需加载 taro-ui 样式
+@import "taro-ui/dist/style/components/button.scss";
+@import "taro-ui/dist/style/components/icon.scss";
+@import "~taro-ui/dist/style/components/avatar.scss";
+
+.page{
+  height: 100vh;
+  background: linear-gradient(0deg, #4eaefe 65%, #4388f0 100%);
+  display: flex;
+  flex-direction: column;
+  font-size: 32px;
+}
+.header{
+  color: white;
+  display: flex;
+  padding: 30px 30px 20px 30px;
+  .header_left{
+    flex: 1;
+    display: flex;
+    .header_left_img{
+     margin-right: 15px;
+    }
+    .header_left_text{
+        display: flex;
+        flex-direction: column;
+    }
+    .header_left_text_cs{
+      margin-bottom: 5px;
+      font-size: 38px;
+    }
+  }
+  .header_right{
+     flex: 1;
+     text-align: right;
+     .header_right_room{
+      margin-bottom: 5px;
+      font-size: 38px;
+     }
+     .header_right_state{
+      font-size: 36px;
+     }
+  }
+}
+.content{
+  flex: 1;
+  overflow-y: scroll;
+  .server_menu{
+    position: relative;
+    background: white;
+    margin: 0 10px 5px 10px;
+    margin-top: 20px;
+    margin-bottom: 15x;
+    padding: 5px 10px;
+    .menu_title{
+      text-align: center;
+      font-size: 36px;
+      font-weight: 500;
+      color: #222222;
+      padding: 20px 0 0 0;
+    }
+    .menu_item{
+      font-size: 34px;
+      height: 98px;
+      line-height: 98px;
+      text-align: center;
+      margin: 24px 10px;
+      border-radius: 10px;
+      background: linear-gradient(to right, #FFE1A3, #fdd78c);
+      display: -ms-flexbox;
+      text-align: center;
+    }
+  }
+  .server_menu::before{
+    content: '';
+    position: absolute;
+    height: 10px;
+    width: 100%;
+    left: 0;
+    top: -10px;
+    background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 0px, transparent 10px, white 10px);
+    background-size: 30px 10px;
+  }
+  .server_menu::after{
+    content: '';
+    position: absolute;
+    height: 10px;
+    width: 100%;
+    left: 0;
+    bottom: -10px;
+    background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 10px, transparent 10px, white 10px);
+    background-size: 30px 10px;
+  }
+}
