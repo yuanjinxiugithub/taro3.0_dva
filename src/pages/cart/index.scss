@@ -1,0 +1,93 @@
+@import "~taro-ui/dist/style/components/button.scss";
+.cart_page{
+  background: #e9e9e9;
+  height: 100vh;
+  position: relative;
+  height: 100vh;
+  .page_content{
+    padding: 20px 15px;
+  }
+  .hotfood_item{
+    background-color: #fff;
+    color: black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding:15px;
+    .hotfood_row1{
+      display: flex;
+      padding: 20px 10px;
+      .hotfood_row1_name{
+        flex: 1;
+        font-size: 38px;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .hotfood_row1_ms{
+        font-size: 15.5PX;
+        color: #e67162;
+        border-radius: 10px;
+        min-width: 85px;
+        text-align: right;
+        align-items: center;
+        display: flex;
+        margin-right: 15px;
+      }
+    }
+    .hotfood_row2{
+       padding: 0 10px 20px 10px;
+       display: flex;
+      .hotfood_row2_price{
+        color: #e67162;
+        font-weight: 500;
+      }
+      .hotfood_row2_operate{
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+  .return_btn{
+  }
+}
+.page_footer{
+  position: absolute;
+  bottom: 0px;
+  height: 100px;
+  line-height: 100px;
+  background-color: white;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  .page_footer_left{
+   flex: 1;
+   font-size: 32px;
+   color: #e67162;
+   font-weight: 600;
+   padding-left: 25px;
+  }
+  .page_footer_right{
+    flex: 1;
+    display: flex;
+    font-size: 32px;
+    color: white;
+    text-align: center;
+    height: 80px;
+    line-height: 80px;
+    .immediateOrder{
+       flex: 1;
+       border-radius: 10px;
+       background-color: #ec5d4f;
+       margin-right: 20px;
+    }
+    .immediatePay{
+      flex: 1;
+      border-radius: 10px;
+      background-color: #ec5d4f;
+      margin-right: 20px;
+    }
+  }
+}

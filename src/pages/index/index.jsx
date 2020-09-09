@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
 import { View, Text } from '@tarojs/components'
-import { AtButton, AtIcon, AtAvatar } from 'taro-ui'
+import Stepper from '../../components/Stepper/index'
+import { AtBadge, AtAvatar } from 'taro-ui'
 
 import './index.scss'
 @connect(({home, loading}) => ({
+  home, loading
 }))
 export default class Index extends Component {
   state = {
@@ -31,7 +33,7 @@ export default class Index extends Component {
   componentWillMount () { 
     const { dispatch } = this.props;
     // 测试 调用 models
-    dispatch({type: 'home/load'});
+    dispatch({type: 'home/getHotFood'});
   }
 
   componentDidMount () { }
@@ -43,13 +45,28 @@ export default class Index extends Component {
   componentDidHide () { }
 
   omClickMenu (item) {
-    console.log(item)
     Taro.navigateTo({url:item.directUrl})
+  }
 
+  onClickCart(){
+    Taro.navigateTo({url:'/pages/cart/index'});
+  }
+
+  onChangeStepper = (val,item)=>{
+    const { dispatch } = this.props
+    dispatch({
+      type: 'home/changeHotFoodCount',
+      payload: { val , id: item.FD_ID }
+    })
   }
 
   render () {
     const { menuList } = this.state;
+    const {home: { hotFood }} = this.props;
+    let sumCount = 0;
+    hotFood.map(o => {
+      sumCount += Number(o.count||0)
+    });
     return (
       <View className='page'>
         <View className='header'>
@@ -72,7 +89,36 @@ export default class Index extends Component {
              <View key={index} className='menu_item' onClick={() => this.omClickMenu(item)}>{item.text}</View>
              )) }
           </View>
+          <View className="server_hotFood">
+             <View className='hot_title'>本店正在火热促销的酒水</View>
+             {hotFood.map((item,index)=>(
+               <View key={index} className='hot_item'>
+                <View className='hot_item_name'>{item.FD_Name}</View>
+                <View className='hot_item_price'>
+                  <View className='hot_item_price_old'>原价:¥{item.FD_SetPrice}/{item.FD_DanWei}</View>
+                  <View className='hot_item_price_new'>¥{item.FD_Price}/{item.FD_DanWei}</View>
+                </View>
+                <View className='hot_item_operate'>
+                  <View className='hot_item_operate_ms'>买{item.FD_MaiCount}送{item.FD_SongCount}</View>
+                  <View className='hot_item_operate_stepper'>
+                    <Stepper
+                     value={0}
+                     min={0}
+                     max={10}
+                     inputWidth='100PX'
+                     value={item.count||0}
+                     readOnly ={false}
+                     onChange={(val)=>this.onChangeStepper(val,item)}
+                   />
+                  </View>
+                </View>
+               </View>
+             ))}
+          </View>
         </View>
+        <AtBadge value={sumCount} maxValue={99} className='cart-badge'>
+          <View className='cart-btn' onClick={this.onClickCart}>购物车</View>
+        </AtBadge>
       </View>
     )
   }

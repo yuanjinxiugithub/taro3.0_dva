@@ -1,93 +1,166 @@
 // 按需加载 taro-ui 样式
-@import "taro-ui/dist/style/components/button.scss";
-@import "taro-ui/dist/style/components/icon.scss";
 @import "~taro-ui/dist/style/components/avatar.scss";
-
+@import "~taro-ui/dist/style/components/badge.scss";
 .page{
   height: 100vh;
   background: linear-gradient(0deg, #4eaefe 65%, #4388f0 100%);
   display: flex;
   flex-direction: column;
-  font-size: 32px;
-}
-.header{
-  color: white;
-  display: flex;
-  padding: 30px 30px 20px 30px;
-  .header_left{
-    flex: 1;
+  font-size: 34px;
+  padding-bottom: 10px;
+  .header{
+    color: white;
     display: flex;
-    .header_left_img{
-     margin-right: 15px;
+    padding: 30px 30px 20px 30px;
+    .header_left{
+      flex: 1.5;
+      display: flex;
+      .header_left_img{
+       margin-right: 15px;
+      }
+      .header_left_text{
+          display: flex;
+          flex-direction: column;
+      }
+      .header_left_text_cs{
+        margin-bottom: 5px;
+        font-size: 38px;
+      }
     }
-    .header_left_text{
-        display: flex;
-        flex-direction: column;
-    }
-    .header_left_text_cs{
-      margin-bottom: 5px;
-      font-size: 38px;
+    .header_right{
+       flex: 1;
+       text-align: right;
+       .header_right_room{
+        margin-bottom: 5px;
+        font-size: 38px;
+       }
+       .header_right_state{
+        font-size: 36px;
+       }
     }
   }
-  .header_right{
-     flex: 1;
-     text-align: right;
-     .header_right_room{
-      margin-bottom: 5px;
-      font-size: 38px;
-     }
-     .header_right_state{
-      font-size: 36px;
-     }
+  .content{
+    flex: 1;
+    overflow-y: scroll;
+    .server_menu{
+      position: relative;
+      background: white;
+      margin: 0 10px 5px 10px;
+      margin-top: 20px;
+      margin-bottom: 15x;
+      padding: 5px 10px;
+      .menu_title{
+        text-align: center;
+        font-size: 36px;
+        font-weight: 500;
+        color: #222222;
+        padding: 20px 0 0 0;
+      }
+      .menu_item{
+        font-size: 34px;
+        height: 98px;
+        line-height: 98px;
+        text-align: center;
+        margin: 24px 10px;
+        border-radius: 10px;
+        background: linear-gradient(to right, #FFE1A3, #fdd78c);
+        display: -ms-flexbox;
+        text-align: center;
+      }
+    }
+    .server_menu::before{
+      content: '';
+      position: absolute;
+      height: 10px;
+      width: 100%;
+      left: 0;
+      top: -10px;
+      background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 0px, transparent 10px, white 10px);
+      background-size: 30px 10px;
+    }
+    .server_menu::after{
+      content: '';
+      position: absolute;
+      height: 10px;
+      width: 100%;
+      left: 0;
+      bottom: -10px;
+      background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 10px, transparent 10px, white 10px);
+      background-size: 30px 10px;
+    }
+  
+    .server_hotFood{
+      margin-top: 20px;
+      padding: 0 10px;
+      .hot_title{
+        background: linear-gradient(to right, #fc4f7b, #fc5f84, #fd7a7d);
+        height: 88px;
+        line-height: 88px;
+        background-size: 100%;
+        text-align: center;
+        color: white;
+      }
+      .hot_item{
+        background-color: #fff;
+        text-align: left;
+        padding: 10px 7px 0 7px;
+        position: relative;
+        .hot_item_name{
+          padding: 1PX 8PX 3PX 8PX;
+          font-size: 18PX;
+        }
+        .hot_item_price{
+          display: flex;
+          padding: 6px 16px;
+          .hot_item_price_old{
+            font-size: 30px;
+            font-weight: 400;
+            text-decoration: line-through;
+            color: #999999;
+          }
+          .hot_item_price_new{
+            flex: 1 1;
+            text-align: right;
+            color: #ec5d4f;
+            font-size: 36px;
+            font-weight: 500;
+          }
+        }
+        .hot_item_operate{
+          display: flex;
+          padding: 12px 10px 12px 32px;
+          .hot_item_operate_ms{
+            border: 1px solid #e86054;
+            border-radius: 4PX;
+            font-size: 13.5PX;
+            height: 24.5PX;
+            line-height: 24.5PX;
+            padding: 0 3PX;
+            color: #e86054;
+          }
+          .hot_item_operate_stepper{
+             flex: 1;
+             display: flex;
+             justify-content: flex-end;
+             align-items: center;
+          }
+        }
+      }
+    }
   }
 }
-.content{
-  flex: 1;
-  overflow-y: scroll;
-  .server_menu{
-    position: relative;
-    background: white;
-    margin: 0 10px 5px 10px;
-    margin-top: 20px;
-    margin-bottom: 15x;
-    padding: 5px 10px;
-    .menu_title{
-      text-align: center;
-      font-size: 36px;
-      font-weight: 500;
-      color: #222222;
-      padding: 20px 0 0 0;
-    }
-    .menu_item{
-      font-size: 34px;
-      height: 98px;
-      line-height: 98px;
-      text-align: center;
-      margin: 24px 10px;
-      border-radius: 10px;
-      background: linear-gradient(to right, #FFE1A3, #fdd78c);
-      display: -ms-flexbox;
-      text-align: center;
-    }
-  }
-  .server_menu::before{
-    content: '';
-    position: absolute;
-    height: 10px;
-    width: 100%;
-    left: 0;
-    top: -10px;
-    background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 0px, transparent 10px, white 10px);
-    background-size: 30px 10px;
-  }
-  .server_menu::after{
-    content: '';
-    position: absolute;
-    height: 10px;
-    width: 100%;
-    left: 0;
-    bottom: -10px;
-    background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 10px, transparent 10px, white 10px);
-    background-size: 30px 10px;
-  }
+.cart-badge{
+  position:absolute;
+  bottom: 4px;
+  z-index:99;
+}
+.cart-btn{
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  border-radius:50%;
+  font-size: 28px;
+  background:rgb(236, 93, 79);
+  color:white;
+  text-align:center;
 }

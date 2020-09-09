@@ -1,0 +1,49 @@
+.stepper{
+  display: flex;
+  .stepper-handler-down{
+    border: 1PX solid #ec5d4f;
+    border-radius: 50%;
+    width: 66px;
+    height: 66px;
+    line-height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18PX;
+    color: #ec5d4f;
+  }
+  .stepper-input-warp{
+    width: 140px;
+    .stepper-input-warp-value{
+      height: 66px;
+      line-height: 66px;
+      text-align: center;
+      font-size: 42px;
+      color: black;
+    }
+  }
+  .stepper-handler-up{
+    border: 1PX solid #ec5d4f;
+    border-radius: 50%;
+    background-color: #ec5d4f;
+    width: 66px;
+    height: 66px;
+    line-height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 18PX;
+  }
+  .isDisabled{
+    cursor: not-allowed;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .isNone{
+    opacity: 0;
+  }
+  .isShow{
+    opacity: 1;
+  }
+}
