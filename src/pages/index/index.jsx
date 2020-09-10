@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import Stepper from '../../components/Stepper/index'
 import { AtBadge, AtAvatar } from 'taro-ui'
 
@@ -27,7 +27,11 @@ export default class Index extends Component {
       text:"存酒",
       iconSrc: "/assets/cunjiu@2x.png",
       directUrl: "/pages/order/index",
-  }],
+      },{
+        text:"个人中心",
+        iconSrc: "/assets/cunjiu@2x.png",
+        directUrl: "/pages/person/person",
+     }],
   }
 
   componentWillMount () { 

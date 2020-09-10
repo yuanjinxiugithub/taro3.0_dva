@@ -1,0 +1,15 @@
+@import "~taro-ui/dist/style/components/button.scss";
+.page{
+  height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+  .tips{
+    margin: 20px;
+  }
+  .nick_name{
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+  }
+  
+}
