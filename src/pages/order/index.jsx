@@ -52,6 +52,10 @@ export default class Index extends Component {
    console.log(e)
   }
 
+  onTouchMove = (e) => {
+    console.log(e)
+  }
+
   render () {
     const { order:{ foodType, foodList } } =  this.props;
     const { activeMenu } = this.state
@@ -80,7 +84,10 @@ export default class Index extends Component {
             className="page_right_food" 
             key={item.FT_Name}
             >
-              <View className="page_right_food_type">
+              <View 
+               className="page_right_food_type"
+               onTouchMove = {this.onTouchMove}
+               >
                <Text className="divider"/>
                {item.FT_Name}
                <Text className="divider"/>
