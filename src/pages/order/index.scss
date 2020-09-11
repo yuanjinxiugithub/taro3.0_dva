@@ -1,18 +1,20 @@
+@import "~taro-ui/dist/style/components/divider.scss";
 .page{
   background-color: #efeff4;
-  height: 100vh;
   display: flex;
+  position: relative;
+  overflow: auto;
   .page_left{
+    position: fixed;
     width: 168px;
     background: white;
-    padding: 10px;
-    border-right: 1px solid #efeff4;
+    overflow-y: auto;
+    height: 100vh;
     .page_left_menu_item{
-      padding:  20px;
+      padding: 30px 20px;
       word-wrap: break-all;
       word-break: normal;
       background: white;
-      margin: 5px 0;
     }
     .page_left_menu_item_active{
       background: #efeff4;
@@ -29,9 +31,78 @@
       background: linear-gradient(0deg, #ec5d4f, #f5a8a1);
       border-radius: 3px;
     }
+   
   }
   .page_right{
+    margin-left: 174px;
     flex: 1;
-    background-color: white;
+    background-color: #efeff4;
+    padding-right: 5px;
+    overflow-y: scroll;
+    .page_right_food{
+    }
+    .page_right_food_type{
+       padding: 35px 20px 20px 20px;
+       text-align: center;
+       text-align: center;
+       color: #918f8f;
+       .divider{
+        display: inline-block;
+        width: 40PX;
+        border-top: 1PX solid #918f8f;
+        vertical-align: 4PX;
+        margin: 0 20px;
+       }
+    }
+    .page_right_food_item{
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #efeff4;
+      padding: 10px 10px;
+      background: white;
+      border-radius: 8px;
+      .page_right_food_item_left{
+         padding-left: 5px;
+         display: flex;
+         align-items: center;
+         margin-right: 18px;
+         .page_right_food_item_left_img{
+           object-fit: cover;
+           width: 180px;
+           height: 180px;
+           border-radius: 8px;
+         }
+      }
+      .page_right_food_item_right{
+        flex: 1;
+        .page_right_food_item_right_name{
+          font-size: 20PX;
+          color: #000;
+          overflow: hidden; 
+          margin-bottom: 3px;
+          padding: 10px 0 10px 10px;
+        }
+        .page_right_food_item_right_price{
+          .food_price{
+            color: #E83C3C;
+            font-size: 18PX;
+          }
+          .food_danwei{
+            font-size: 15PX;
+            padding-left: 2PX;
+            color: #444343;
+          }
+        }
+        .page_right_food_item_right_vip{
+          font-size: 14PX;
+        }
+        .page_right_food_item_right_stepper{
+          padding: 10px 0;
+          display: flex;
+          justify-content: flex-end;
+          align-items:center;
+        }
+      }
+    }
   }
 }

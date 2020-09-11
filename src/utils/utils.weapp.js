@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import { showModal } from '../utils/taro.utils'
 import { baseURL } from './const'
 
 export const  getAuthCode = (successCallBack) =>{
@@ -30,18 +31,14 @@ export const request = (url,data,method='POST') => {
     });
   }).then(res => {
   let { statusCode } = res;
-  console.log(statusCode)
   if (statusCode >= 200 && statusCode < 300) {
     return res.data;
   } else if(statusCode == 401){
-    wx.showToast({
-      title: '401授权失效',
-      icon: 'fail',
-      duration: 3000
+    showModal('提示',"401授权失效",(res)=>{
+      wx.navigateBack({
+        delta: -1
+      }); //退出小程序
     });
-    wx.navigateBack({
-      delta: 0
-    })
   }
   else {
     throw new Error(`网络请求错误，状态码${statusCode}`);

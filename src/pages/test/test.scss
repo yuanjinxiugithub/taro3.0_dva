@@ -1,0 +1,29 @@
+.page{
+  position: relative;
+  display: flex;
+  overflow: auto;
+}
+.btns{
+  position: fixed;
+  width: 60PX;
+  overflow-y: auto;
+  height: 100vh;
+  .btn{
+    flex: 1;
+    text-align: center;
+    margin: 0 10px;
+    border: 1px solid green;   
+    height: 200PX; 
+  }
+}
+.list{
+  flex: 1;
+  margin-left: 60PX;
+  overflow-y: scroll;
+}
+.list_item{
+  height: 600px;
+  border: 1px solid red;
+  color: red;
+  margin-top: 30PX;
+}

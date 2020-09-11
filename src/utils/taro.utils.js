@@ -6,3 +6,17 @@ export function showToast(msg,icon='success',duration=2000){
     duration
   });
 }
+
+export function  showModal (title,content,callback){
+  Taro.showModal({
+    title,
+    content,
+    showCancel: false,
+    success: res => {
+      if (res.confirm) {
+        // console.log('用户点击确定')
+        if(callback) callback(res)
+      }
+    }
+  });
+}

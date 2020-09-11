@@ -3,7 +3,8 @@ export default {
     'pages/index/index',
     'pages/cart/index',
     'pages/order/index',
-    'pages/person/person'
+    'pages/person/person',
+    'pages/test/test'
   ],
   window: {
     backgroundTextStyle: 'light',

@@ -31,7 +31,11 @@ export default class Index extends Component {
         text:"个人中心",
         iconSrc: "/assets/cunjiu@2x.png",
         directUrl: "/pages/person/person",
-     }],
+     },{
+      text:"测试页面",
+      iconSrc: "/assets/cunjiu@2x.png",
+      directUrl: "/pages/test/test",
+   }],
   }
 
   componentWillMount () { 
@@ -112,7 +116,7 @@ export default class Index extends Component {
                      inputWidth='100PX'
                      value={Number(item.count||0)}
                      readOnly ={false}
-                     onChange={(val)=>this.onChangeStepper(val,item)}
+                     onChange={(val) => this.onChangeStepper(val,item)}
                    />
                   </View>
                 </View>
