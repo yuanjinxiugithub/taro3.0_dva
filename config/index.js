@@ -9,7 +9,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: `dist/${process.env.TARO_ENV}`,
-  plugins: [],
+  plugins: [ '@tarojs/plugin-mock'],
   defineConstants: {
   },
   copy: {
@@ -19,6 +19,9 @@ const config = {
     }
   },
   framework: 'react',
+  terser: {
+    enable: true
+  },
   mini: {
     postcss: {
       pxtransform: {
@@ -58,7 +61,17 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    }
+    },
+    devServer: {
+      open: true, 
+      https: true,
+      proxy: {
+        '/api': {
+          "target": "https://login.16931.com/PROD",
+          "changeOrigin": true,
+        }
+      }
+    },
   }
 }
 

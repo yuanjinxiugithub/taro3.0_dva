@@ -10,5 +10,8 @@ export default {
     * error({payload: e}, {all, call, put}) {
       console.error("error:", e);
     },
+    *test({payload: e}, {all, call, put}){
+      console.log('test')
+    }
   },
 };

@@ -1,3 +1,7 @@
+import Taro from '@tarojs/taro'
+import { guestLogin , getToken } from '../servies/api'
+// const guestLogin = require('../servies/api')
+
 export default {
   namespace: 'home',
   state: {
@@ -12,10 +16,26 @@ export default {
     },
   },
   effects: {
-    * load({payload}, {all, call, put}) {
+    *login({payload}, {all, call, put}){
+      const result = yield call(guestLogin,payload);
+      if(result.err == 0){
+        const tokenRes = yield call(getToken,{OpenID: result.WX.openid})
+        if(tokenRes.err == 0){
+            Taro.setStorageSync('token',tokenRes.Token)
+        }
+      }
+      return result;
+    },
+    *getToken({payload},{all,call,put}){
+      const result = yield call(getToken,payload);
+      return result;
+    },
+    
+    *load({payload}, {all, call, put}) {
       console.log("dva loading")
     },
-    * getHotFood({payload}, {all, call, put}){
+
+    *getHotFood({payload}, {all, call, put}){
       const hotFoodList =  [{
         FD_DanWei: "张",
         FD_ID: "ffff791fdc264731b7eec188df1ae00b",
@@ -52,6 +72,7 @@ export default {
         hotFood: hotFoodList
       });
     },
+
     *changeHotFoodCount({payload}, {all, call, put, select}){
       const hotFood = yield select(model => model.home.hotFood)
       let item  = hotFood.find(o => o.FD_ID == payload.id);

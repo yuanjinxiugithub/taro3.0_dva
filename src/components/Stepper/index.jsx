@@ -8,12 +8,12 @@ export default class index extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      value: props.value,
+      value: Number(props.value),
     };
   }
   componentWillReceiveProps(props){
     if (props.value !== this.props.value) {
-      this.setState({ value: props.value });
+      this.setState({ value: Number(props.value) });
     }
   }
 
@@ -49,24 +49,26 @@ export default class index extends React.Component {
 
   onChangeValue = (e) => {
     const inputValue = e.detail.value;
-    this.setState({value: inputValue});
+    this.setState({value: Number(inputValue)});
   }
 
   onBlurValue = (e) =>{
     const inputValue = e.detail.value;
     const { max , min } = this.props;
+    let nextVal = Number(inputValue);
     if(Number(inputValue) < min){
-      this.setState({value : min});
+      nextVal = Number(min);
+      this.setState({value : Number(min)});
+    }else if(Number(inputValue) > max){
+      nextVal = Number(max);
+      this.setState({value: nextVal})
     }
-    if(Number(inputValue) > max){
-      this.setState({value: max})
-    }
-    this.props.onChange(inputValue);
+    this.props.onChange(nextVal);
   }
 
   render () {
     const { value } = this.state
-    const { showNumber, min , max , readOnly, inputWidth} = this.props
+    const { showNumber, min , readOnly, inputWidth} = this.props
 
     return (<View className="stepper">
       <View 

@@ -1,0 +1,37 @@
+.page{
+  background-color: #efeff4;
+  height: 100vh;
+  display: flex;
+  .page_left{
+    width: 168px;
+    background: white;
+    padding: 10px;
+    border-right: 1px solid #efeff4;
+    .page_left_menu_item{
+      padding:  20px;
+      word-wrap: break-all;
+      word-break: normal;
+      background: white;
+      margin: 5px 0;
+    }
+    .page_left_menu_item_active{
+      background: #efeff4;
+      color: #ec5d4f;
+      position: relative;
+    }
+    .page_left_menu_item_active::before{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 8px;
+      background: linear-gradient(0deg, #ec5d4f, #f5a8a1);
+      border-radius: 3px;
+    }
+  }
+  .page_right{
+    flex: 1;
+    background-color: white;
+  }
+}

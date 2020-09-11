@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '闲娱汇'
+  navigationBarTitleText: '闲娱汇点单'
 }

@@ -110,7 +110,7 @@ export default class Index extends Component {
                      min={0}
                      max={10}
                      inputWidth='100PX'
-                     value={item.count||0}
+                     value={Number(item.count||0)}
                      readOnly ={false}
                      onChange={(val)=>this.onChangeStepper(val,item)}
                    />

@@ -15,6 +15,7 @@ export default class index extends React.Component {
   getUserInfo = () => {
     const { getInfo } = this.props
     Taro.getUserInfo({
+      lang: 'zh_CN',
       success: res => {
         const userInfo = res.userInfo;
         if(getInfo){
