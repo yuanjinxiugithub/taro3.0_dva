@@ -1,5 +1,5 @@
 export default {
-  'GET /api/front/foodType/list': 
+  'POST /api/front/foodType/list': 
   {"err":0,
    "data":[
      {"Regions":"113988118975492096","FT_XianShouYin":"0","FT_SortNo":"68432","FT_CunJiuFlag":"1","FT_Flag":"1","FT_Name":"厨房精美小吃","FT_ID":"5b221fb040ce4a8385cf5125dadd78a8"},
@@ -13,5 +13,8 @@ export default {
      {"Regions":"","FT_XianShouYin":"0","FT_SortNo":"76456","FT_CunJiuFlag":"0","FT_Flag":"0","FT_Name":"出品点3","FT_ID":"85054062590316544"},{"Regions":"","FT_XianShouYin":"0","FT_SortNo":"76504","FT_CunJiuFlag":"0","FT_Flag":"0","FT_Name":"测试酒水","FT_ID":"90130431108177920"}
     ]
   },
+  'POST /api/upload': {
+    name: '123'
+  }
 
 }

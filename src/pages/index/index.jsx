@@ -34,7 +34,11 @@ export default class Index extends Component {
      },{
       text:"测试页面",
       iconSrc: "/assets/cunjiu@2x.png",
-      directUrl: "/pages/test/test",
+      directUrl: "/pages/viewscroll/index",
+   },{
+    text:"图标插件使用",
+    iconSrc: "/assets/cunjiu@2x.png",
+    directUrl: "/pages/chart/index",
    }],
   }
 
@@ -44,7 +48,9 @@ export default class Index extends Component {
     dispatch({type: 'home/getHotFood'});
   }
 
-  componentDidMount () { }
+  componentDidMount () {}
+  
+  componentWillReceiveProps(newProps){ }
 
   componentWillUnmount () { }
 
@@ -52,7 +58,7 @@ export default class Index extends Component {
 
   componentDidHide () { }
 
-  omClickMenu (item) {
+  onClickMenu (item) {
     Taro.navigateTo({url:item.directUrl})
   }
 
@@ -94,7 +100,7 @@ export default class Index extends Component {
           <View className='server_menu'>
             <View className='menu_title'>请选择您需要的服务</View>
             {menuList.map((item,index) => (
-             <View key={index} className='menu_item' onClick={() => this.omClickMenu(item)}>{item.text}</View>
+             <View key={index} className='menu_item' onClick={() => this.onClickMenu(item)}>{item.text}</View>
              )) }
           </View>
           <View className="server_hotFood">
