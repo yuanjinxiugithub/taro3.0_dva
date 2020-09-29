@@ -39,8 +39,7 @@ export const request = (url,data,method='POST') => {
         delta: -1
       }); //退出小程序
     });
-  }
-  else {
+  }else {
     throw new Error(`网络请求错误，状态码${statusCode}`);
   }
   });

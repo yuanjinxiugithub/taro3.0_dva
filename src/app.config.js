@@ -1,26 +1,36 @@
-/*
- * @Author: yjx
- * @Date: 2020-09-08 17:21:33
- * @LastEditTime: 2020-09-16 09:59:36
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /taro-ui-k/src/app.config.js
- */
 export default {
   pages: [
-    'pages/index/index',
+    'pages/home/index',
+    'pages/scanbill/index',
     'pages/cart/index',
     'pages/order/index',
     'pages/person/person',
     'pages/test/test',
-    'pages/chart/index',
-    'pages/viewscroll/index'
+    'pages/chart/index'
   ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: '闲娱汇',
     navigationBarTextStyle: 'black'
+  },
+  tabBar: {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "iconPath": "assets/home_d.png",
+        "selectedIconPath": "assets/home_s.png",
+        "text": "首页"
+      }, {
+        "pagePath": "pages/person/person",
+        "iconPath": "assets/my_d.png",
+        "selectedIconPath": "assets/my_s.png",
+        "text": "我的"
+      }
+    ]
   },
   permission: {
     'scope.userLocation': {

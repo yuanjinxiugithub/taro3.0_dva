@@ -3,11 +3,12 @@ import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
 import { View } from '@tarojs/components'
 import Stepper from '../../components/Stepper/index'
+import {getScanStateString} from '../../utils/taro.utils'
+import { ENV } from '../../utils/const'
 import { AtBadge, AtAvatar } from 'taro-ui'
-
 import './index.scss'
-@connect(({home, loading}) => ({
-  home, loading
+@connect(({home, loading, bill}) => ({
+  home, loading, bill
 }))
 export default class Index extends Component {
   state = {
@@ -34,23 +35,63 @@ export default class Index extends Component {
      },{
       text:"测试页面",
       iconSrc: "/assets/cunjiu@2x.png",
-      directUrl: "/pages/viewscroll/index",
+      directUrl: "/pages/test/test",
    },{
     text:"图标插件使用",
     iconSrc: "/assets/cunjiu@2x.png",
     directUrl: "/pages/chart/index",
    }],
+   loading: true,
   }
 
   componentWillMount () { 
-    const { dispatch } = this.props;
-    // 测试 调用 models
-    dispatch({type: 'home/getHotFood'});
+   
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    const { dispatch, home: { OpenID } } = this.props;
+    //调用扫码
+    Taro.scanCode({
+     // onlyFromCamera: true,
+      success: res=>{
+        if(res.result){
+          dispatch({
+            type: 'home/getRealUrl',
+            payload:{ Url:res.result},
+            callback: result =>{
+             const CS_ID = "93d32d97381a42669f074cd33f55d38e";
+             const R_ID =  "6fc556482df2454fb820e0221bc8ce9a";
+             if(CS_ID!=""&&R_ID!=""){
+               this.getBill({CS_ID,R_ID,OpenID})
+             }
+            }
+          });
+        }
+      }
+    })
+  }
   
-  componentWillReceiveProps(newProps){ }
+  getBill = (params) => {
+    const { dispatch } = this.props
+    dispatch({
+      type:'bill/getScanBill',
+      payload: params,
+      callback: res=>{
+        console.log(res)
+        if(res.err == 0){
+          if (res.KeDianDanFanWei == 0 || ENV === 'localhost') {
+            this.setState({loading: false});
+          }else{
+
+          }
+        }
+        // if (res.msg && res.msg !== '') {
+				// 	this.setState({ modal1: true, msg: res.msg });
+				// 	return false;
+				// }
+      }
+    });
+  }
 
   componentWillUnmount () { }
 
@@ -75,34 +116,54 @@ export default class Index extends Component {
   }
 
   render () {
-    const { menuList } = this.state;
-    const {home: { hotFood }} = this.props;
+    const { menuList, loading } = this.state;
+    const { home: { hotFood }, 
+           bill: { CS_Name, RoomName,MT_State,DingFangRen,NeedPay,MT_HuaDan_WeiJie,ZhangDanMode }} = this.props;
     let sumCount = 0;
     hotFood.map(o => {
       sumCount += Number(o.count||0)
     });
     return (
       <View className='page'>
+        {!loading &&<>
         <View className='header'>
           <View className='header_left'>
-             <AtAvatar className='header_left_img' circle image="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLCudqg5zBCIGMj1PTsSkbjLOHllGDY1k2EBT9ZSpBJJtF7FRdBib8vB6b1g831zwcVOSfPsibrLCEkg/132" />
-             <View className='header_left_text'>
-                <View className="header_left_text_cs">搜娱研发</View>
+            <AtAvatar className='header_left_img' circle image="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLCudqg5zBCIGMj1PTsSkbjLOHllGDY1k2EBT9ZSpBJJtF7FRdBib8vB6b1g831zwcVOSfPsibrLCEkg/132" />
+            <View className='header_left_text'>
+                <View className="header_left_text_cs">{CS_Name}</View>
                 <View>欢迎光临，李四</View>
-             </View>
+            </View>
           </View>
           <View className='header_right'>
-             <View className='header_right_room'>A04</View>
-             <View className='header_right_state'>消费中</View>
+            <View className='header_right_room'>{RoomName}</View>
+            <View className='header_right_state'>
+              { MT_State === 'I' && <>消费中</>}
+              { MT_State === 'S' && <>结账中</>}
+              { MT_State === 'L' && <>清洁中</>}
+            </View>
           </View>
         </View>
         <View className='content'>
+          {/* 账单信息 */}
+          <View className='server_bill'>
+          {ZhangDanMode != 0 && (Number(NeedPay) > 0 || Number(MT_HuaDan_WeiJie) > 0) &&
+           <View>
+             <View>您有未支付订单</View>
+           </View>
+          }
+
+          </View>
+          {/* 菜单按钮 */}
           <View className='server_menu'>
             <View className='menu_title'>请选择您需要的服务</View>
+            {DingFangRen!="" &&
+            <View className='menu_dingfanren'>如有需要请联系您的专职服务经理：{DingFangRen}</View>
+            }
             {menuList.map((item,index) => (
              <View key={index} className='menu_item' onClick={() => this.onClickMenu(item)}>{item.text}</View>
              )) }
           </View>
+          {/* 热门酒水 */}
           <View className="server_hotFood">
              <View className='hot_title'>本店正在火热促销的酒水</View>
              {hotFood.map((item,index)=>(
@@ -133,6 +194,7 @@ export default class Index extends Component {
         <AtBadge value={sumCount} maxValue={99} className='cart-badge'>
           <View className='cart-btn' onClick={this.onClickCart}>购物车</View>
         </AtBadge>
+        </>}
       </View>
     )
   }

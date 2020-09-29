@@ -1,24 +1,11 @@
 import { request } from '../utils/utils'
 const API = {
-  //扫码登录接口
-  guestLogin: '/guest/login',
-  scanCode: '/guest/scan',
+  guestLogin: '/guest/login',//扫码登录接口
+  guestScan: '/guest/scan', //扫码结账
   getFoodType: '/front/foodType/list',
-  getFoodList: '/front/foodItem/list'
+  getFoodList: '/front/foodItem/list',
+  getRealUrl: '/url/real',
 }
-
-// let ApiMethod = {}
-// Object.keys(API).forEach(key=>{
-//   ApiMethod[key] = async (params) => {
-//     switch(key){
-//       case 'getFoodTypeList':
-//       case 'getFoodList':
-//         return request(API[key], params, 'GET');
-//       default:
-//         return request(API[key], params);
-//     }    
-//   }
-// })
 
 // module.exports = ApiMethod;
 export const guestLogin = async  (params) => {
@@ -26,7 +13,7 @@ export const guestLogin = async  (params) => {
 };
 
 export const getToken = async (params) => {
-  return request(API.scanCode,params)
+  return request(API.guestScan,params)
 }
 
 export const getFoodType = async (params) => {
@@ -35,4 +22,12 @@ export const getFoodType = async (params) => {
 
 export const getFoodList = async (params) => {
   return request(API.getFoodList,params,"GET")
+}
+
+export const getRealUrl = async(params) => {
+  return request(API.getRealUrl)
+}
+
+export const getScanBill = async(params) => {
+  return request(API.guestScan,params)
 }

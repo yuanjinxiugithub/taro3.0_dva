@@ -1,0 +1,9 @@
+@import "~taro-ui/dist/style/components/button.scss";
+.page{
+  height: 100vh;
+  width: 100vw;
+  .btn{
+    width: 140PX;
+    margin: 20PX auto;
+  }
+}

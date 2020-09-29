@@ -1,12 +1,14 @@
 import Taro from '@tarojs/taro'
-import { guestLogin , getToken } from '../servies/api'
-// const guestLogin = require('../servies/api')
+import { guestLogin , getToken, getRealUrl } from '../servies/api'
+import { showToast } from '../utils/taro.utils'
 
 export default {
   namespace: 'home',
   state: {
-    hotFood: []
+    hotFood: [],
+    OpenID: '',
   },
+
   reducers: {
     changeState(state, action) {
       return {
@@ -15,20 +17,49 @@ export default {
       };
     },
   },
+
   effects: {
     *login({payload}, {all, call, put}){
       const result = yield call(guestLogin,payload);
       if(result.err == 0){
+        //获取token
         const tokenRes = yield call(getToken,{OpenID: result.WX.openid})
+        Taro.setStorageSync('openid',result.WX.openid)
         if(tokenRes.err == 0){
-            Taro.setStorageSync('token',tokenRes.Token)
+          Taro.setStorageSync('token',tokenRes.Token)
         }
+        yield put({
+          type: 'changeState',
+          OpenID: result.WX.openid,
+        })
+      }
+      if (result.err==1){
+        showToast(result.WX.errmsg,'fail');
       }
       return result;
     },
+
     *getToken({payload},{all,call,put}){
       const result = yield call(getToken,payload);
+      // if (token) {//token获取成功成功
+      //   startPing();// 通过ping来延长token有效期
+      // }
       return result;
+    },
+
+    *getRealUrl({payload,callback},{all,call,put}){
+      const result = yield call(getRealUrl,payload);
+      if(callback){
+        callback(result)
+      }
+      if (result.msg && result.msg !== ''){
+        showToast(result.msg,'fail');
+      }
+    },
+
+    *reloadToken({payload},{all,call,put}){
+      console.log('relodtoken')
+      //start ping
     },
     
     *load({payload}, {all, call, put}) {

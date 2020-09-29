@@ -10,7 +10,6 @@ function createApp(opt){
   //opt.onAction = [createLogger()];
   app = create(opt);
   app.use(createLoading({}));
-
   if (!global.registered) opt.models.forEach(model => app.model(model));
   global.registered = true;
   app.start();

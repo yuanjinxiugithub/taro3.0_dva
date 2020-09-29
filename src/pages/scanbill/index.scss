@@ -42,6 +42,9 @@
   .content{
     flex: 1;
     overflow-y: scroll;
+    .server_bill{
+      
+    }
     .server_menu{
       position: relative;
       background: white;
@@ -49,12 +52,18 @@
       margin-top: 20px;
       margin-bottom: 15x;
       padding: 5px 10px;
+      text-align: center;
       .menu_title{
         text-align: center;
         font-size: 36px;
         font-weight: 500;
         color: #222222;
         padding: 20px 0 0 0;
+      }
+      .menu_dingfanren{
+        font-size: 13PX;
+        color    : rgb(141, 139, 139);
+        padding  : 8PX 0 0 0;
       }
       .menu_item{
         font-size: 34px;

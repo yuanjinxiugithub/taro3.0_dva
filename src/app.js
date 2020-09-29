@@ -25,16 +25,8 @@ class App extends Component {
     const env =  process.env.TARO_ENV; //获取内置环境变量
     // Taro.getSystemInfo().then(res => console.log(res)) 获取系统信息
     getAuthCode((code)=>{
-      // Taro.request({
-      //   url: `${baseURL}/guest/login`,
-      //   method: 'POST',
-      //   data: { Code:"aabbccdd", Flag: 0},
-      //   success: res => {
-      //     console.log(res)
-      //   }
-      // });
+      //console.log(code) //根据code获取openid等用户信息
       dvaApp.dispatch({type: 'home/login', payload: { Code: 'aabbccdd', Flag: 0}})
-      
     }); //获取用户的authcode 并调用后台login登陆接口获取userID
     
   }
