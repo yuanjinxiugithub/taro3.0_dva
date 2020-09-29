@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import Stepper from '../../components/Stepper/index'
 import {getScanStateString} from '../../utils/taro.utils'
 import { ENV } from '../../utils/const'
@@ -42,6 +42,11 @@ export default class Index extends Component {
     directUrl: "/pages/chart/index",
    }],
    loading: true,
+   iconName: '',
+   showList: 'none',
+   showList2: 'none',
+   isToggleOn: true,
+   isToggleOn2: true,
   }
 
   componentWillMount () { 
@@ -116,13 +121,19 @@ export default class Index extends Component {
   }
 
   render () {
-    const { menuList, loading } = this.state;
+    const { menuList, loading, iconName, showList, showList2, isToggleOn, isToggleOn2 } = this.state;
     const { home: { hotFood }, 
-           bill: { CS_Name, RoomName,MT_State,DingFangRen,NeedPay,MT_HuaDan_WeiJie,ZhangDanMode }} = this.props;
+           bill: { SettleMode, CS_Name, RoomName,
+            MT_State,DingFangRen,NeedPay,MT_HuaDan_WeiJie,
+            ZhangDanMode,WillPayMoney,YuShouJinE ,PayedMoney,
+            UseVipNeedPay, getLocation,PayList}} = this.props;
     let sumCount = 0;
     hotFood.map(o => {
       sumCount += Number(o.count||0)
     });
+    const HJNum = PayList.filter(obj => obj.F_TaoCanChild == "0").length;
+    const HDNum = PayList.filter(obj => obj.F_TaoCanChild == "0" && obj.F_HuaDanFlag > 0).length;
+    const XFNum = PayList.filter(obj => obj.F_TaoCanChild == "0" && obj.F_HuaDanFlag == '0').length;
     return (
       <View className='page'>
         {!loading &&<>
@@ -145,10 +156,70 @@ export default class Index extends Component {
         </View>
         <View className='content'>
           {/* 账单信息 */}
-          <View className='server_bill'>
+          <View className='server_bill' style={{ marginBottom: ZhangDanMode != 0 && Number(NeedPay) + Number(MT_HuaDan_WeiJie) > 0 ? '50PX' : '5PX' }}>
           {ZhangDanMode != 0 && (Number(NeedPay) > 0 || Number(MT_HuaDan_WeiJie) > 0) &&
-           <View>
-             <View>您有未支付订单</View>
+           <View >
+             <View className="server_bill_title">您有未支付订单</View>
+             {/* 房台消费 */}
+             {NeedPay > 0 &&
+              <View className='server_bill_xiaofei'>
+                <View className="xiaofei_icon" >
+                  <image alt="" src={"../../assets/bill_food@3x.png"} />
+                </View> 
+                <View className="xiaofei_sum" style={{ borderBottom: SettleMode == '0' && MT_State !== "S" ? "1px dashed #d1d1d1" : "none" }}>
+                  <View className={'line1'}>
+                    <Text className="name">房台:<Text className="roomName">{RoomName}</Text></Text>
+                    <Text className="price">合计金额:<Text className="sumPrice">¥{WillPayMoney}</Text></Text>
+                  </View>
+                  { PayedMoney > 0 &&
+                   <View className={'line1'}>
+                    <Text className="name">已支付金额:<Text className="sumPrice">{PayedMoney}</Text></Text>
+                    <Text className="price">未支付金额:<Text className="sumPrice">¥{NeedPay}</Text></Text>
+                   </View>
+                  }
+                  {YuShouJinE>0 &&
+                    <View className={'line1'}>
+                    <Text className="name">押金余额:<Text className="sumPrice">{YuShouJinE}</Text></Text>
+                    <Text className="price">本次支付:<Text className="sumPrice">￥{(WillPayMoney - YuShouJinE) <= 0 ? 0 : (WillPayMoney - YuShouJinE)}</Text></Text>
+                   </View>
+                  }
+                  {SettleMode == 1 && UseVipNeedPay > 0 && Number(UseVipNeedPay) != Number(NeedPay) &&
+                    <View className="vippaytip">会员支付只需{UseVipNeedPay},立省{Number(NeedPay) - Number(UseVipNeedPay)}</View>
+                  }
+                  {(ZhangDanMode == '3' && SettleMode == '0' || SettleMode == '1') &&
+                   <View className="line2">
+                      <View style={{ flex: 1, textAlign: 'left' }}>
+                        {MT_HuaDan_WeiJie > 0 ? "消费项目：" + XFNum : "合计：" + HJNum}项
+                      </View>
+                      {getLocation &&
+                        <View className="iconBox" onClick={this.goBillDetail}>
+                          {SettleMode == '0' ? '账单详情' : "订单详情"}<span className={`iconfont  ${iconName}`} style={{ marginLeft: '2px' }}></span>
+                        </View>
+                      }          
+                   </View>
+                  }
+                </View>
+               {/* 先结模式的账单详情 */}
+               {showList != 'none' &&
+                <View className="xiaofei_list">
+
+                </View>
+               }
+               {/* 支付方式 */}
+               {(SettleMode == '0' && MT_State !== 'I' && NeedPay > 0 || SettleMode == '1' && NeedPay > 0) &&
+               <>
+               <View className="payWay" style={{ borderTop: (isToggleOn && SettleMode == '1' || SettleMode == '0') ? "1px dashed #d1d1d1" : "none" }}>
+                 <View className="payTitle">支付方式</View>
+                 {
+
+                 }
+
+               </View>
+               </>
+               }
+              </View>
+             }
+             {/* 房台花单 */}
            </View>
           }
 

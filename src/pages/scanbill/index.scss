@@ -1,41 +1,42 @@
 // 按需加载 taro-ui 样式
 @import "~taro-ui/dist/style/components/avatar.scss";
 @import "~taro-ui/dist/style/components/badge.scss";
+$redColor: #ec5d4f;
 .page{
   height: 100vh;
   background: linear-gradient(0deg, #4eaefe 65%, #4388f0 100%);
   display: flex;
   flex-direction: column;
-  font-size: 34px;
-  padding-bottom: 10px;
+  font-size: 17PX;
+  padding-bottom: 5PX;
   .header{
     color: white;
     display: flex;
-    padding: 30px 30px 20px 30px;
+    padding: 15PX 15PX 10PX 15PX;
     .header_left{
       flex: 1.5;
       display: flex;
       .header_left_img{
-       margin-right: 15px;
+       margin-right: 7.5PX;
       }
       .header_left_text{
           display: flex;
           flex-direction: column;
       }
       .header_left_text_cs{
-        margin-bottom: 5px;
-        font-size: 38px;
+        margin-bottom: 2.5PX;
+        font-size: 19PX;
       }
     }
     .header_right{
        flex: 1;
        text-align: right;
        .header_right_room{
-        margin-bottom: 5px;
-        font-size: 38px;
+        margin-bottom: 2.5PX;
+        font-size: 19PX;
        }
        .header_right_state{
-        font-size: 36px;
+        font-size: 18PX;
        }
     }
   }
@@ -43,35 +44,339 @@
     flex: 1;
     overflow-y: scroll;
     .server_bill{
-      
+      .server_bill_title{
+        text-align : center;
+        font-size  : 19PX;
+        font-weight: bold;
+        padding    :10PX 0 20PX 0;
+        color      : white;
+      }
+      .server_bill_xiaofei{
+        position               : relative;
+        background             : white;
+        margin                 : 0 10PX 5PX 10PX;
+        margin-top             : 5PX;
+        margin-bottom          : 20PX;
+        padding                : 5PX 0;
+        border-top-right-radius: 7PX;
+        border-top-left-radius : 7PX;
+        .xiaofei_icon{
+          position  : absolute;
+          width     : 100%;
+          text-align: center;
+          top       : -11PX;
+          image {
+            width: 160PX;
+            height: 34PX;
+          }
+        }
+        .xiaofei_sum{
+          font-size: 17.5PX;
+          padding  : 5PX 2PX 5PX 3PX;
+          margin   : 13PX 10PX 0;
+          .line1 {
+            display: flex;
+            padding: 5PX 0;
+            .name {
+              flex: 1;
+    
+              .sumPrice {
+                color      : $redColor;
+                min-width  : 55PX;
+                font-weight: 540;
+                text-align : right;
+              }
+    
+              .roomName {
+                font-weight: 550;
+              }
+            }
+    
+            .price {
+              display: flex;
+              overflow: hidden; 
+              text-overflow:ellipsis; 
+              white-space:nowrap;
+              .sumPrice {
+                color      :$redColor;
+                min-width  : 55PX;
+                font-weight: 540;
+                text-align : right;
+              }
+            }
+          }
+          .line2 {
+            display    : flex;
+            margin     : 4PX 2PX 6PX 0;
+            height     : 38PX;
+            line-height: 38PX;
+            text-align : center;
+    
+            .iconBox {
+              width          : 100PX;
+              height         : 38PX;
+              line-height    : 38PX;
+              background     : rgba(78, 174, 254, 1);
+              border-radius  : 5PX;
+              color          : white;
+              font-size      : 16PX;
+              text-align     : center;
+              justify-content: center;
+              align-items    : center;
+            }
+          }
+          .vippaytip{
+            color: $redColor;
+            text-align: right;
+            margin-left: 0PX;
+            font-weight: 500;
+          }
+        }
+        .xiaofei_list{
+          //消费明细
+          .itemBox {
+            background-color: white;
+            padding         : 0 13PX;
+            padding-bottom  : 8PX;
+            margin-bottom: 10PX;
+            border-bottom   : 1PX solid #E0E0E0;
+            font-size       : 17PX;
+            position        : relative;
+
+            .closeBtn {
+              font-size          : 17PX;
+              position           : absolute;
+              z-index            : 100;
+            
+              border-radius      : 50%;
+              right              : -4PX;
+              top                : -9PX;
+              z-index            : 199;
+            }
+
+            .line1 {
+              padding: 10PX 0 5PX 0;
+              display: flex;
+              color  : #222222;
+
+              .foodName {
+                flex         : 1;
+                font-size    : 17PX;
+                overflow     : hidden;
+                text-overflow: ellipsis;
+                white-space  : nowrap;
+
+                .zengsong {
+                  color           : white;
+                  background-color: #28c07a;
+                  font-size       : 12PX;
+                  width           : 20PX;
+                  height          : 20PX;
+                  line-height     : 20PX;
+                  text-align      : center;
+                  border-radius   : 50%;
+                  margin-right    : 3PX;
+                }
+
+                .zengsongNO {
+                  display: none;
+                }
+              }
+
+              .num {
+                flex      : 0.6;
+                font-size : 15PX;
+                text-align: center;
+              }
+
+              .price {
+                flex       : 0.8;
+                color      : $redColor;
+                font-size  : 17PX;
+                text-align : right;
+                font-weight: 500;
+              }
+            }
+
+            .line2 {
+              display  : flex;
+              padding  : 5PX 0 3PX 0;
+              font-size: 15PX;
+
+              .person {
+                flex: 1.3;
+                overflow     : hidden;
+                text-overflow: ellipsis;
+                white-space  : nowrap;
+              }
+
+              .taste {
+                flex      : 1;
+                color     : #999999;
+                text-align: center;
+                overflow     : hidden;
+                text-overflow: ellipsis;
+                white-space  : nowrap;
+              }
+
+              .flower {
+                flex      : 1.3;
+                text-align: right;
+                .zengsong {
+                  width           : 100PX;
+                  font-size       : 12PX;
+                  text-align      : right;
+                  color           : white;
+                  background-color: #28c07a;
+                  border-radius   : 5PX;
+                  padding         : 5PX;
+                  white-space     : nowrap;
+                  text-overflow   : ellipsis;
+                  word-break      : break-all;
+                  overflow        : hidden;
+                }
+
+                .zengsongNO {
+                  display: none;
+                }
+
+                .yiren {
+                  font-size: 14PX;
+                  color    : #999999;
+
+                  .hua {
+                    margin-right: 5PX;
+                    width       : 20PX;
+                    height      : 20PX;
+
+                    img {
+                      width : 18PX;
+                      height: 18PX;
+                    }
+                  }
+                }
+              }
+
+              .yiReturn {
+                color           : white;
+                background-color: #f29c9f;
+                font-size       : 12PX;
+                border-radius   : 5PX;
+                padding         : 5PX;
+                margin-left     : 5PX;
+              }
+
+            }
+
+            .line3 {
+              //套餐子项
+              background   : rgba(244, 244, 244, 0.2);
+              border       : 1PX solid rgba(102, 102, 102, 0.2);
+              border-radius: 5PX;
+              margin       : 5PX 0;
+              margin-bottom: 10PX;
+              font-size    : 16PX;
+
+              .title2 {
+                text-align: center;
+                padding   : 8PX 0;
+
+                span {
+                  display       : inline-block;
+                  width         : 30PX;
+                  border-top    : 1PX solid #464545;
+                  font-weight   : 400;
+                  vertical-align: 5.5PX;
+                  margin        : 0 20PX;
+                }
+              }
+
+              .packItem {
+                width     : 100%;
+                padding   : 8PX 0;
+                border-top: 1PX solid rgba(102, 102, 102, 0.2);
+                display   : flex;
+                justify-content: space-around;
+
+                .itemName {
+                  flex         : 1;
+                  overflow     : hidden;
+                  text-overflow: ellipsis;
+                  white-space  : nowrap;
+                }
+              }
+            }
+          }
+        }
+        .payWay{
+          background    : white;
+          margin        : 0 10PX 5PX 10PX;
+          padding       : 0PX 10PX;
+          padding-bottom: 15PX;
+          .payTitle {
+            text-align : center;
+            font-size  : 18PX;
+            font-weight: bold;
+            padding    : 10PX 0;
+          }
+    
+          .way {
+            text-align: center;
+            .imgIcon {
+              width       : 34PX;
+              height      : 28PX;
+              margin-right: 5PX;
+              img {
+                width : 34PX;
+                height: 27PX;
+              }
+            }
+          }
+        }
+
+      }
+      .server_bill_xiaofei::after{
+        content : '';
+        position: absolute;
+        height  : 5.3PX;
+        width   : 100%;
+        left    : 0;
+        bottom  : -5.3PX;
+        background-image: linear-gradient(to right, white 5.3PX, transparent 5.3PX, transparent),
+          radial-gradient(10.6PX circle at 10.6PX 5.3PX, transparent 5.3PX, white 5.3PX);
+        background-size: 15.899999999999999PX 5.3PX;
+      }
+      .server_bill_huadan{
+        
+      }
     }
     .server_menu{
       position: relative;
       background: white;
-      margin: 0 10px 5px 10px;
-      margin-top: 20px;
-      margin-bottom: 15x;
-      padding: 5px 10px;
+      margin: 0 5PX 2.5PX 5PX;
+      margin-top: 10PX;
+      margin-bottom: 7.5Px;
+      padding: 2.5PX 5PX;
       text-align: center;
       .menu_title{
         text-align: center;
-        font-size: 36px;
+        font-size: 18PX;
         font-weight: 500;
         color: #222222;
-        padding: 20px 0 0 0;
+        padding: 10PX 0 0 0;
       }
       .menu_dingfanren{
-        font-size: 13PX;
+        font-size: 7.5PX;
         color    : rgb(141, 139, 139);
-        padding  : 8PX 0 0 0;
+        padding  : 4PX 0 0 0;
       }
       .menu_item{
-        font-size: 34px;
-        height: 98px;
-        line-height: 98px;
+        font-size: 17PX;
+        height: 49PX;
+        line-height: 49PX;
         text-align: center;
-        margin: 24px 10px;
-        border-radius: 10px;
+        margin: 12PX 5PX;
+        border-radius: 5PX;
         background: linear-gradient(to right, #FFE1A3, #fdd78c);
         display: -ms-flexbox;
         text-align: center;
@@ -80,31 +385,31 @@
     .server_menu::before{
       content: '';
       position: absolute;
-      height: 10px;
+      height: 5PX;
       width: 100%;
       left: 0;
-      top: -10px;
-      background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 0px, transparent 10px, white 10px);
-      background-size: 30px 10px;
+      top: -5PX;
+      background-image: linear-gradient(to right, white 5PX, transparent 5PX, transparent), radial-gradient(10PX circle at 10PX 0PX, transparent 5PX, white 5PX);
+      background-size: 15PX 5PX;
     }
     .server_menu::after{
       content: '';
       position: absolute;
-      height: 10px;
+      height: 5PX;
       width: 100%;
       left: 0;
-      bottom: -10px;
-      background-image: linear-gradient(to right, white 10px, transparent 10px, transparent), radial-gradient(20px circle at 20px 10px, transparent 10px, white 10px);
-      background-size: 30px 10px;
+      bottom: -5PX;
+      background-image: linear-gradient(to right, white 5PX, transparent 5PX, transparent), radial-gradient(10PX circle at 10PX 5PX, transparent 5PX, white 5PX);
+      background-size: 15PX 5PX;
     }
   
     .server_hotFood{
-      margin-top: 20px;
-      padding: 0 10px;
+      margin-top: 10PX;
+      padding: 0 5PX;
       .hot_title{
         background: linear-gradient(to right, #fc4f7b, #fc5f84, #fd7a7d);
-        height: 88px;
-        line-height: 88px;
+        height: 44PX;
+        line-height: 44PX;
         background-size: 100%;
         text-align: center;
         color: white;
@@ -112,17 +417,17 @@
       .hot_item{
         background-color: #fff;
         text-align: left;
-        padding: 10px 7px 0 7px;
+        padding: 5PX 3.5PX 0 3.5PX;
         position: relative;
         .hot_item_name{
-          padding: 1PX 8PX 3PX 8PX;
+          padding: 1PX 4PX 1.5PX 4PX;
           font-size: 18PX;
         }
         .hot_item_price{
           display: flex;
-          padding: 6px 16px;
+          padding: 3PX 8PX;
           .hot_item_price_old{
-            font-size: 30px;
+            font-size: 15PX;
             font-weight: 400;
             text-decoration: line-through;
             color: #999999;
@@ -130,17 +435,17 @@
           .hot_item_price_new{
             flex: 1 1;
             text-align: right;
-            color: #ec5d4f;
-            font-size: 36px;
+            color: $redColor;
+            font-size: 18PX;
             font-weight: 500;
           }
         }
         .hot_item_operate{
           display: flex;
-          padding: 12px 10px 12px 32px;
+          padding: 6PX 5PX 6PX 16PX;
           .hot_item_operate_ms{
-            border: 1px solid #e86054;
-            border-radius: 4PX;
+            border: 1PX solid #e86054;
+            border-radius: 2PX;
             font-size: 13.5PX;
             height: 24.5PX;
             line-height: 24.5PX;
@@ -160,15 +465,15 @@
 }
 .cart-badge{
   position:absolute;
-  bottom: 4px;
+  bottom: 4PX;
   z-index:99;
 }
 .cart-btn{
-  width: 100px;
-  height: 100px;
-  line-height: 100px;
+  width: 50PX;
+  height: 50PX;
+  line-height: 50PX;
   border-radius:50%;
-  font-size: 28px;
+  font-size: 14PX;
   background:rgb(236, 93, 79);
   color:white;
   text-align:center;
