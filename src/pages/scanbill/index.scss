@@ -8,7 +8,6 @@ $redColor: #ec5d4f;
   display: flex;
   flex-direction: column;
   font-size: 17PX;
-  padding-bottom: 5PX;
   .header{
     color: white;
     display: flex;
@@ -43,15 +42,16 @@ $redColor: #ec5d4f;
   .content{
     flex: 1;
     overflow-y: scroll;
+    margin-bottom: 60PX;
     .server_bill{
       .server_bill_title{
         text-align : center;
         font-size  : 19PX;
         font-weight: bold;
-        padding    :10PX 0 20PX 0;
+        padding    :10PX 0 10PX 0;
         color      : white;
       }
-      .server_bill_xiaofei{
+      .server_bill_xiaofei,.server_bill_huadan{
         position               : relative;
         background             : white;
         margin                 : 0 10PX 5PX 10PX;
@@ -60,7 +60,7 @@ $redColor: #ec5d4f;
         padding                : 5PX 0;
         border-top-right-radius: 7PX;
         border-top-left-radius : 7PX;
-        .xiaofei_icon{
+        .xiaofei_icon,.huadan_icon{
           position  : absolute;
           width     : 100%;
           text-align: center;
@@ -70,7 +70,7 @@ $redColor: #ec5d4f;
             height: 34PX;
           }
         }
-        .xiaofei_sum{
+        .xiaofei_sum,.huadan_sum{
           font-size: 17.5PX;
           padding  : 5PX 2PX 5PX 3PX;
           margin   : 13PX 10PX 0;
@@ -312,12 +312,12 @@ $redColor: #ec5d4f;
           background    : white;
           margin        : 0 10PX 5PX 10PX;
           padding       : 0PX 10PX;
-          padding-bottom: 15PX;
+          padding-bottom: 5PX;
           .payTitle {
             text-align : center;
             font-size  : 18PX;
             font-weight: bold;
-            padding    : 10PX 0;
+            padding    : 10PX 0 0;
           }
     
           .way {
@@ -333,9 +333,29 @@ $redColor: #ec5d4f;
             }
           }
         }
+        .payButton{
+          text-align      : center;
+          font-size       : 15.5PX;
+          margin          : 0 auto;
+          height          : 45PX;
+          line-height     : 45PX;
+          background-color: #ff7611;
+          color           : white;
+          border-radius   : 8PX;
+          width           : 92%;
+          margin-bottom   : 5PX;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .xiaofeiIcon{
+          height: 26PX;
+          width: 30PX;
+          margin-left: 2PX;
+        }
 
       }
-      .server_bill_xiaofei::after{
+      .server_bill_xiaofei::after,.server_bill_huadan::after{
         content : '';
         position: absolute;
         height  : 5.3PX;
@@ -375,7 +395,7 @@ $redColor: #ec5d4f;
         height: 49PX;
         line-height: 49PX;
         text-align: center;
-        margin: 12PX 5PX;
+        margin: 12PX;
         border-radius: 5PX;
         background: linear-gradient(to right, #FFE1A3, #fdd78c);
         display: -ms-flexbox;
@@ -402,7 +422,6 @@ $redColor: #ec5d4f;
       background-image: linear-gradient(to right, white 5PX, transparent 5PX, transparent), radial-gradient(10PX circle at 10PX 5PX, transparent 5PX, white 5PX);
       background-size: 15PX 5PX;
     }
-  
     .server_hotFood{
       margin-top: 10PX;
       padding: 0 5PX;
@@ -462,10 +481,40 @@ $redColor: #ec5d4f;
       }
     }
   }
+  .bottomFooter{
+    position     : absolute;
+		font-size    : 18PX;
+		bottom       : 0;
+		height       : 50PX;
+		line-height  : 50PX;
+    width        : 100%;
+  }
+  .bottomBtn{
+		font-size    : 18PX;
+		bottom       : 0;
+		height       : 50PX;
+		line-height  : 50PX;
+    width        : 100%;
+    display: flex;
+    align-items  : center;
+    justify-content: center;
+    color        : white;
+    background-color: #ec5d4f;
+    .icon{
+      height: 26PX;
+      width: 30PX;
+    }
+  	.btn {
+			flex            : 1.8;
+			height          : 50px;
+			line-height     : 50px;
+     
+		}
+  }
 }
 .cart-badge{
   position:absolute;
-  bottom: 4PX;
+  bottom: 52PX;
   z-index:99;
 }
 .cart-btn{

@@ -34,7 +34,7 @@ export default {
         })
       }
       if (result.err==1){
-        showToast(result.WX.errmsg,'fail');
+        showToast(result.msg,'none');
       }
       return result;
     },
@@ -53,7 +53,7 @@ export default {
         callback(result)
       }
       if (result.msg && result.msg !== ''){
-        showToast(result.msg,'fail');
+        showToast(result.msg,'none');
       }
     },
 

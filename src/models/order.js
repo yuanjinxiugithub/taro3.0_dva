@@ -41,7 +41,7 @@ export default {
       if (!result)
       return;
       if (result.msg && result.msg !== ''){
-        showToast(result.msg,'fail');
+        showToast(result.msg,'none');
       }
       yield put({
         type: 'changeState',

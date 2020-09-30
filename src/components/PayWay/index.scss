@@ -1,0 +1,40 @@
+.payway{
+  display: flex;
+  height: 46PX;
+  line-height: 46PX;
+  font-size: 17PX;
+  padding: 0 10PX;
+  color: #000000A6;
+  justify-content: space-around;
+  .way{
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .circle{
+    width: 16PX;
+    height: 16PX;
+    border-radius: 50%;
+    margin-right: 4PX;
+    border: 1px solid rgba(139, 139, 139, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .actived{
+    border: 1px solid #1890ff;
+  }
+  .activedinner{
+    width: 8PX;
+    height: 8PX;
+    border-radius: 50%;
+    background-color:#1890ff;
+  }
+  .icon{
+    width: 30PX;
+    height: 28PX;
+    margin-left: 2PX;
+    vertical-align: middle;
+    border-style: none;
+  }
+}

@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { getScanBill } from '../servies/api'
+import { getScanBill, guestCheckPay, guestClosePay, guestBillPay } from '../servies/api'
 import { showToast } from '../utils/taro.utils'
 
 export default {
@@ -53,7 +53,7 @@ export default {
     *getScanBill({payload,callback}, {all, call, put}) {
       const result = yield call(getScanBill,payload);
       if (result.msg && result.msg !== ''){
-        showToast(result.msg,'fail');
+        showToast(result.msg,'none');
       }
       if(result.Bill && result.err === 0){
         let Bill = result.Bill;
@@ -99,5 +99,32 @@ export default {
         });
       }
     },
+    *guestCheckPay({ payload, callback }, { call }) {
+      const result = yield call(guestCheckPay, payload);
+      if (result.msg && result.msg !== ''){
+        showToast(result.msg,'none');
+      }
+      if (callback)
+        callback(result);
+    },
+
+    *guestClosePay({ payload, callback }, { call }){
+      const result = yield call(guestClosePay, payload);
+      if (result.msg && result.msg !== ''){
+        showToast(result.msg,'none');
+      }
+      if (callback)
+        callback(result);
+    },
+
+    *guestBillPay({ payload, callback }, { call }){
+      const result = yield call(guestBillPay, payload);
+      if (result.msg && result.msg !== ''){
+        showToast(result.msg,'none');
+      }
+      if (callback)
+        callback(result);
+    },
+
   },
 };

@@ -57,3 +57,25 @@ export const request = (url,data,method='POST') => {
     }
   });
 }
+
+//支付宝小程序支付
+export const tradePay = (params,callback) => {
+  console.log(params)
+  my.tradePay({
+    tradeNO: params.out_trade_no,
+    success: (res) => {
+      // my.alert({
+      //   content: JSON.stringify(res),
+      // });
+      if(callback){
+        callback(res)
+      }
+    },
+    fail: (res) => {
+      //失败 关闭订单
+      // my.alert({
+      //   content: JSON.stringify(res),
+      // });
+    }
+  });
+}

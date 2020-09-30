@@ -11,6 +11,7 @@ export default class index extends React.Component {
       value: Number(props.value),
     };
   }
+  
   UNSAFE_componentWillReceiveProps(props){
     if (props.value !== this.props.value) {
       this.setState({ value: Number(props.value) });

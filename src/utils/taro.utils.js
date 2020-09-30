@@ -57,3 +57,16 @@ export function getScanStateString(href,name) {
   }
   return '';
 }
+
+//订单取消后关闭订单
+export function guestClosePay (params,callback){
+  window.g_app._store.dispatch({
+    type: 'bill/guestClosePay', 
+    payload: params,
+    callback : (res)=>{
+       if(callback){
+        callback(res);
+       }
+    }             
+  });
+}

@@ -27,3 +27,8 @@ export const request = (url,data,method='POST') => {
     }
   });
 }
+
+//小程序支付
+export const tradePay = (params,callback) => {
+
+}

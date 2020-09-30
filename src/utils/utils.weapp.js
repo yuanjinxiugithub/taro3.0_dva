@@ -44,3 +44,23 @@ export const request = (url,data,method='POST') => {
   }
   });
 }
+
+//微信小程序支付
+export const tradePay = (params,callback) => {
+  console.log(params)
+  wx.requestPayment({
+    timeStamp: '',
+    nonceStr: '',
+    package: '',
+    signType: 'MD5',
+    paySign: '',
+    success (res) { 
+      if(callback){
+        callback(res)
+      }
+    },
+    fail (res) { 
+      //失败 关闭订单
+    }
+  })
+}
