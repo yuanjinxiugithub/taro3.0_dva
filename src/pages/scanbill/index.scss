@@ -1,6 +1,7 @@
 // 按需加载 taro-ui 样式
 @import "~taro-ui/dist/style/components/avatar.scss";
 @import "~taro-ui/dist/style/components/badge.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
 $redColor: #ec5d4f;
 .page{
   height: 100vh;
@@ -42,7 +43,7 @@ $redColor: #ec5d4f;
   .content{
     flex: 1;
     overflow-y: scroll;
-    margin-bottom: 60PX;
+    // margin-bottom: 60PX;
     .server_bill{
       .server_bill_title{
         text-align : center;
@@ -132,7 +133,7 @@ $redColor: #ec5d4f;
             font-weight: 500;
           }
         }
-        .xiaofei_list{
+        .xiaofei_list,.huadan_list{
           //消费明细
           .itemBox {
             background-color: white;
@@ -243,13 +244,12 @@ $redColor: #ec5d4f;
                 .yiren {
                   font-size: 14PX;
                   color    : #999999;
-
+                  display: flex;
                   .hua {
-                    margin-right: 5PX;
                     width       : 20PX;
                     height      : 20PX;
-
-                    img {
+                    flex: 1;
+                    .img {
                       width : 18PX;
                       height: 18PX;
                     }
@@ -480,6 +480,220 @@ $redColor: #ec5d4f;
         }
       }
     }
+    .server_buyHuiyuan{
+      margin-top: 10PX;
+      padding: 0 5PX;
+      .card_title{
+        background: linear-gradient(to right,#4491fc,#559bfc,#74adfc);
+				height         : 44PX;
+				line-height    : 44PX;
+        background-size: 100%;
+        text-align: center;
+        color: white;
+      }
+    	.cardType {
+				display    : flex;
+				height     : 80PX;
+				line-height: 80PX;
+				text-align : center;
+        border-radius: 3PX;
+        // background: require('../../assets/vipBg.png');
+				.iconBox {
+          margin-left: 8PX;
+          align-items: center;
+          display: flex;
+					.imgIcon {
+						width : 50PX;
+						height: 50PX;
+					}
+				}
+
+				.typeName {
+					flex        : 1;
+					height      : 50PX;
+					line-height : 50PX;
+					text-align  : left;
+					padding-left: 15PX;
+          font-size   : 18PX;
+          color: white;
+					.no {
+						width        : 100%;
+						overflow     : hidden;
+						text-overflow: ellipsis;
+            white-space  : nowrap;
+					}
+				}
+      }
+      .cardList {
+				.cardItemSimple {
+					background-color: white;
+					color           : black;
+					text-align      : left;
+					padding         : 10PX 7PX 0 7PX;
+					.line1 {
+						font-size    : 17PX;
+						display      : flex;
+						margin-top   : 3PX;
+						margin-bottom: 10PX;
+
+						.payM {
+							flex: 1;
+						}
+
+						.payF {
+							color: $redColor;
+						}
+					}
+
+					.line2 {
+						display       : flex;
+						border-bottom : 1PX solid #ececec;
+						padding-bottom: 8PX;
+
+						.jiushui {
+							font-size  : 16PX;
+							font-weight: 400;
+							color      : #999999;
+							line-height: 30PX;
+							height: 30PX;
+							max-width: 230PX;
+							white-space:nowrap;
+							text-overflow:ellipsis;
+							overflow:hidden;
+						}
+
+						.czBtn {
+							flex       : 1;
+							text-align : right;
+							color      : $redColor;
+							font-size  : 18PX;
+							font-weight: 500;
+							display    : flex;
+
+							.btnBox {
+								background-color: $redColor;
+								text-align      : center;
+								color           : white;
+								padding         : 8PX 4PX;
+								min-width       : 85PX;
+								font-size       : 15PX;
+								border-radius   : 5PX;
+							}
+
+							.btnBox2 {
+								background-color: #ffcb74;
+								text-align      : center;
+								color           : #562200;
+								padding         : 6PX 4PX;
+								min-width       : 85PX;
+								font-size       : 14PX;
+								border-radius   : 5PX;
+							}
+						}
+					}
+				}
+
+				.cardItem {
+					position        : relative;
+					background-color: white;
+					color           : black;
+					text-align      : left;
+          padding         : 10PX 7PX 0 7PX;
+					background      :
+						radial-gradient(circle at left top, transparent 7PX, #fff 0) top left/51% 51% no-repeat,
+						radial-gradient(circle at right top, transparent 7PX, #fff 0) top right/51% 51% no-repeat,
+						radial-gradient(circle at left bottom, transparent 7PX, #fff 0) bottom left/51% 51% no-repeat,
+						radial-gradient(circle at right bottom, transparent 7PX, #fff 0) bottom right/51% 51% no-repeat;
+
+					&:first-child {
+						background: radial-gradient(circle at left top, transparent 7PX, #fff 0) top left/100% 51% no-repeat,
+							radial-gradient(circle at right top, transparent 7PX, #fff 0) top right/100% 51% no-repeat,
+							radial-gradient(circle at left bottom, transparent 7PX, #fff 0) bottom left/51% 51% no-repeat,
+							radial-gradient(circle at right bottom, transparent 7PX, #fff 0) bottom right/51% 51% no-repeat;
+					}
+
+					&:last-child {
+						background: radial-gradient(circle at left top, transparent 7PX, #fff 0) top left/51% 51% no-repeat,
+							radial-gradient(circle at right top, transparent 7PX, #fff 0) top right/51% 51% no-repeat,
+							radial-gradient(circle at left bottom, transparent 7PX, #fff 0) bottom left/100% 51% no-repeat,
+							radial-gradient(circle at right bottom, transparent 7PX, #fff 0) bottom right/100% 51% no-repeat;
+					}
+
+					.line1 {
+						font-size    : 17PX;
+						display      : flex;
+						margin-top   : 3PX;
+						margin-bottom: 10PX;
+
+						.payM {
+							flex: 1;
+						}
+
+						.payF {
+							color: $redColor;
+						}
+					}
+
+					.line2 {
+						display       : flex;
+						border-bottom : 1PX solid #ececec;
+						padding-bottom: 8PX;
+
+						.jiushui {
+							font-size  : 16PX;
+							font-weight: 400;
+							color      : #999999;
+							line-height: 30PX;
+							max-width: 230PX;
+							white-space:nowrap;
+							text-overflow:ellipsis;
+							overflow:hidden;
+						}
+
+						.czBtn {
+							flex       : 1;
+							text-align : right;
+							color      : $redColor;
+							font-size  : 18PX;
+							font-weight: 500;
+							display    : flex;
+
+							.btnBox {
+								background-color: $redColor;
+								text-align      : center;
+								color           : white;
+								padding         : 8PX 4PX;
+								min-width       : 85PX;
+								font-size       : 15PX;
+								border-radius   : 5PX;
+							}
+
+							.btnBox2 {
+								background-color: #ffcb74;
+								text-align      : center;
+								color           : #562200;
+								padding         : 7PX 4PX;
+								min-width       : 85PX;
+								font-size       : 14PX;
+								border-radius   : 5PX;
+							}
+						}
+					}
+				}
+			}
+    }
+    .foodGroup{
+      display: flex;
+      font-size  : 16PX;
+      font-weight: 400;
+      color      : #999999;
+      .foodGroupCol1{
+        width: 50PX;
+      }
+      .foodGroupCol2{
+        flex: 1;
+      }
+    }
   }
   .bottomFooter{
     position     : absolute;
@@ -492,8 +706,8 @@ $redColor: #ec5d4f;
   .bottomBtn{
 		font-size    : 18PX;
 		bottom       : 0;
-		height       : 50PX;
-		line-height  : 50PX;
+		// height       : 50PX;
+		// line-height  : 50PX;
     width        : 100%;
     display: flex;
     align-items  : center;

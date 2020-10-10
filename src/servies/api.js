@@ -8,6 +8,10 @@ const API = {
   guestCheckPay: '/guest/check/pay', //检查是否有客人正在支付
   guestClosePay: '/guest/close/pay',//关闭未支付订单
   guestBillPay : '/guest/bill/pay', //账单支付
+  getRechargeList: '/system/vipCardType/rechargeList',//咨客收银-会员卡充值列表
+  getVipCardList: '/system/vipCardType/list',//咨客收银-会员卡类型列表
+  getPromotionList: '/guest/promotion',//酒水促销列表
+
 }
 
 // module.exports = ApiMethod;
@@ -28,7 +32,7 @@ export const getFoodList = async (params) => {
 }
 
 export const getRealUrl = async(params) => {
-  return request(API.getRealUrl)
+  return request(API.getRealUrl,params)
 }
 
 export const getScanBill = async(params) => {
@@ -45,4 +49,14 @@ export const guestClosePay = async(params)=>{
 
 export const guestBillPay = async(params)=>{
   return request(API.guestBillPay,params)
+}
+
+export const getRechargeList = async(params)=>{
+  return request(API.getRechargeList,params)
+}
+export const getVipCardList = async(params)=>{
+  return request(API.getVipCardList,params)
+}
+export const getPromotionList = async(params)=>{
+  return request(API.getPromotionList,params)
 }

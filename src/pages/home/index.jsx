@@ -5,7 +5,6 @@ import { View } from '@tarojs/components'
 import PayWay from '../../components/PayWay/index'
 import { AtButton, AtAvatar } from 'taro-ui'
 
-
 import './index.scss'
 @connect(({home, loading}) => ({
   home, loading
@@ -55,11 +54,11 @@ export default class Index extends Component {
        <AtButton className="btn" onClick={()=>{this.onScan(1)}}>扫码结账</AtButton>
        <AtButton className="btn" onClick={()=>{this.onScan(2)}}>扫码存酒</AtButton>
        <AtButton className="btn" onClick={()=>{this.onScan(3)}}>扫码取酒</AtButton>
-       <PayWay
+       {/* <PayWay
          wayList ={payway}
          checkedValue="wx"
        >
-       </PayWay>
+       </PayWay> */}
       </View>
     )
   }

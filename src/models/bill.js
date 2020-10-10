@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { getScanBill, guestCheckPay, guestClosePay, guestBillPay } from '../servies/api'
+import { getScanBill, guestCheckPay, guestClosePay, guestBillPay, getRechargeList, getVipCardList,getPromotionList  } from '../servies/api'
 import { showToast } from '../utils/taro.utils'
 
 export default {
@@ -30,15 +30,16 @@ export default {
     YuShouJinE: 0,
     PayList: [],
     VipInfo: [],
-    hotFoodList: [],
-    rechargeList: [],
-    cardTypeList: [],
     shopList: [], //购物车列表
     shopCarNum: 0, //购物车数量
     SystemFlag: 0, //wx 0 or alipay 1
     UseVipNeedPay: 0, //使用会员卡需支付金额
     getLocation: true, //判断用户是否取消获取地理位置
     Rights: {},  //房台详情权限
+    hotFoodList: [],
+    rechargeList: [],
+    cardTypeList: [],
+
   },
   reducers: {
     changeState(state, action) {
@@ -125,6 +126,30 @@ export default {
       if (callback)
         callback(result);
     },
+
+    *getHomeList({ payload, callback }, { call, select, put }){
+      const [response1, response2, response3] = yield [
+        call(getVipCardList, payload),
+        call(getPromotionList, payload),
+        call(getRechargeList, {...payload , VPF_OnLinePay: 1 })
+      ]
+      let allTypeList = (response1.data||[]).filter(o => o.VCT_Type == 0);
+      let VipInfo = yield select(model => model.bill.VipInfo);
+      let cardTypeList = [];      
+      allTypeList.forEach(item=>{
+        if (Number(item.VCT_StopFlag||0)===0 || VipInfo.find(obj=>obj.TypeNo===item.VCT_No)){
+          cardTypeList.push(item);
+        }
+      })
+      yield put({
+        type: 'changeState',
+        hotFoodList: response2.data || [],
+        rechargeList: response3.data || [],
+        cardTypeList,
+      });
+      if (callback)
+        callback([response1, response2, response3]);
+    }
 
   },
 };

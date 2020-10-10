@@ -2,11 +2,17 @@ export default {
   pages: [
     'pages/home/index',
     'pages/scanbill/index',
-    'pages/cart/index',
-    'pages/order/index',
-    'pages/person/person',
-    'pages/test/test',
-    'pages/chart/index'
+    'pages/cart/index',   //购物车
+    'pages/order/index',   //订单详情
+    'pages/person/person', //个人中心
+    'pages/test/test', 
+    'pages/chart/index',  
+    'pages/billdetail/index', //账单详情
+    'pages/roominfo/index',  //房台详情
+    'pages/tokewine/index', //取酒
+    'pages/storewine/index', //存酒
+    'pages/paybyvip/index', //会员卡支付
+    'pages/applyVip/index', //申请新卡
   ],
   window: {
     backgroundTextStyle: 'light',

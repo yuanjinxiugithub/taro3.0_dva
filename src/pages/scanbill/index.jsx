@@ -4,32 +4,35 @@ import { connect } from 'react-redux'
 import { View, Text, Image } from '@tarojs/components'
 import Stepper from '../../components/Stepper/index'
 import PayWay from '../../components/PayWay/index'
-import { ENV , WXPay, AliPay, YaJinPay } from '../../utils/const'
-import { showToast, guestClosePay} from '../../utils/taro.utils'
+import { ENV , WXPay, AliPay, YaJinPay, uploadFileUrl } from '../../utils/const'
+import { showToast, guestClosePay, formatDate, getScanStateString} from '../../utils/taro.utils'
 import { tradePay } from '../../utils/utils'
-import { AtBadge, AtAvatar } from 'taro-ui'
-
+import { AtBadge, AtAvatar, AtIcon,  } from 'taro-ui'
 import IconXiaoFei from '../../assets/icon_xiaofei.png';
 import IconHuaDanPay from '../../assets/icon_huadan.png';
 import IconHuaDan from '../../assets/huadan@3x.png';
 import IconFangTai from '../../assets/bill_food@3x.png';
+import VipCardImg from '../../assets/avage@2x.png';
+import VipBg from '../../assets/vipBg.png';
+import FlowerImg from '../../assets/flower.png'
 import './index.scss'
 @connect(({home, loading, bill}) => ({
   home, loading, bill
 }))
+
 export default class Index extends Component {
   constructor(props){
     super(props)
     this.state = {
      loading: true,
-     iconName: '',
+     iconName: 'chevron-down',
+     iconName2: 'chevron-down',
      showList: 'none',
      showList2: 'none',
      isToggleOn: true,
      isToggleOn2: true,
      ENV: process.env.TARO_ENV,
      payway: process.env.TARO_ENV=='alipay'?'ali':'wx', //房台支付方式
-     //hdpayway: process.env.TARO_ENV=='alipay'?'ali':'wx', //花单
     }
   }
 
@@ -40,15 +43,14 @@ export default class Index extends Component {
     const { dispatch, home: { OpenID } } = this.props;
     //调用扫码
     // Taro.scanCode({
-    //  // onlyFromCamera: true,
     //   success: res=>{
     //     if(res.result){
     //       dispatch({
     //         type: 'home/getRealUrl',
     //         payload:{ Url:res.result},
     //         callback: result =>{
-    //          const CS_ID = "93d32d97381a42669f074cd33f55d38e";
-    //          const R_ID =  "6fc556482df2454fb820e0221bc8ce9a";
+    //          const CS_ID =getScanStateString(result.Url, 'csid')|| "93d32d97381a42669f074cd33f55d38e";
+    //          const R_ID =  getScanStateString(result.Url, 'roomid')||"6fc556482df2454fb820e0221bc8ce9a";
     //          if(CS_ID!=""&&R_ID!=""){
     //            this.getBill({CS_ID,R_ID,OpenID})
     //          }
@@ -57,8 +59,21 @@ export default class Index extends Component {
     //     }
     //   }
     // })
-
     this.test()
+    this.getCurLocation();
+  }
+   
+  getCurLocation = () => { //获取地理位置 判断是否在点单范围内
+    Taro.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const speed = res.speed
+        const accuracy = res.accuracy
+        console.log(res)
+      }
+      })
   }
 
   test = () => {
@@ -78,24 +93,68 @@ export default class Index extends Component {
       callback: res=>{
         if(res.err == 0){
           if (res.KeDianDanFanWei == 0 || ENV === 'localhost') {
-            this.setState({loading: false});
+            this.setState({loading: false},()=>{
+              this.getHomeList();
+            });
           }else{
 
           }
         }
-        // if (res.msg && res.msg !== '') {
-				// 	this.setState({ modal1: true, msg: res.msg });
-				// 	return false;
-				// }
+        if (res.msg && res.msg !== '') {
+					showModal('提示',res.msg,(res)=>{
+            wx.navigateBack({
+              delta: -1
+            }); //退出小程序
+          });
+					return false;
+				}
       }
     });
   }
 
+  getHomeList = () => {
+    const { dispatch , bill: { M_ID, MT_ID, RoomName, SettleMode }} = this.props
+    dispatch({
+      type: 'bill/getHomeList',
+      payload: { M_ID, MT_ID, RoomName },
+    });
+  }
+ 
   componentWillUnmount () { }
 
   componentDidShow () { }
 
   componentDidHide () { }
+
+  goBillDetail=()=>{
+    const { bill: { SettleMode } } = this.props;
+    if (SettleMode == '0') {
+      //账单详情页面
+      //Control.go("/main/bill", { Flag: '0' });
+      Taro.navigateTo({url:'/pages/billdetail/index'})
+    } else {
+      this.setState(prevState => ({
+        isToggleOn: !prevState.isToggleOn,
+        showList: prevState.isToggleOn ? 'block' : 'none',
+        iconName: prevState.isToggleOn ? 'chevron-up' : 'chevron-down',
+      }));
+    }
+  }
+
+  goBillDetail2 = () => {
+    const { bill: { SettleMode } } = this.props;
+    if (SettleMode == '0') {
+      //账单详情页面
+     // Control.go("/main/bill", { Flag: '1' });
+     Taro.navigateTo({url:'pages/billdetail/index'})
+    } else {
+      this.setState(prevState => ({
+        isToggleOn2: !prevState.isToggleOn2,
+        showList2: prevState.isToggleOn2 ? 'block' : 'none',
+        iconName2: prevState.isToggleOn2 ? 'chevron-up' : 'chevron-down',
+      }));
+    }
+  }
 
   onClickMenu (item) {
     Taro.navigateTo({url:item.directUrl})
@@ -246,6 +305,9 @@ export default class Index extends Component {
 
   handlePayByVip = (needpay, params) => { 
     // 跳转至会员支付
+    Taro.navigateTo({
+      url: '/pages/paybyvip/index'
+    })
 
   }
   
@@ -260,14 +322,96 @@ export default class Index extends Component {
     return true;
   }
 
+  goVipDetail = (cardType) => {
+
+  }
+
+  findCardNo = (obj) => {
+    const { bill: { VipInfo } } = this.props;
+    let arr = [];
+    (VipInfo || []).forEach(element => {
+      if (element.TypeNo === obj.VCT_No) {
+        arr.push(element.No);
+      }
+    });
+    return arr[0];
+  }
+
+  VipInfoHas = (obj) => {
+    const { bill: { VipInfo } } = this.props;
+    let flag = false;
+    for (let i = 0; i < VipInfo.length; i++) {
+      if (obj.VCT_Name === VipInfo[i].TypeName) {
+        flag = true;
+        break;
+      }
+    }
+    return flag;
+  }
+
+  //待修改
+  claimCard = (flag, obj, parent) => {//认领新卡 或者充值
+    const { bill: { RoomName, MT_ID, M_ID, VipInfo } } = this.props;
+    if ((M_ID === '' || M_ID === 0)) {
+      //跳转到 注册页面
+      //Control.go("/main/register", { RoomName, MT_ID, M_ID, cardType: parent, rechargeObj: obj });
+    }
+    if (flag === false && M_ID !== '' && M_ID !== 0) { //申请新卡 
+      Taro.navigateTo({
+        url: '/pages/applyVip/index'
+      })
+      //Control.go("/main/opennewcard", { type: { ...parent }, selectObj: { ...obj } })
+    }
+    if (M_ID !== '' && M_ID !== 0 && flag === true) { //现在充值
+      const findVipInfo = VipInfo.filter(o => o.TypeNo == parent.VCT_No)
+      if (findVipInfo.length == 1) {
+       // Control.go("/main/investcard", { ...findVipInfo[0], selectObj: { ...obj } })
+      } else { //拥有同类型的多张会员卡
+        this.setState({ showRecharge: true, selectACard: { ...findVipInfo[0] }, typeCard: findVipInfo });
+      }
+      this.setState({ selectChongZhi: obj });
+    }
+  }
+
+  getChildList = (item) => { //获取套餐子项
+    const { bill: { PayList } } = this.props;
+    let child = PayList
+    let itemIndex = child.indexOf(item);
+    let childList = [];
+    let packChild = {};
+    for (let i = itemIndex + 1; i < child.length; i++) {
+      if (child[i].F_TaoCanChild === "1") {
+        childList.push(child[i]);
+      } else {
+        break;
+      }
+    }
+    var groupName = [];
+    childList.map((obj) => {
+      if (groupName.indexOf(obj.F_TaoCanGroupName) === -1) {
+        groupName.push(obj.F_TaoCanGroupName)
+      }
+    });
+    for (var i = 0; i < groupName.length; i++) {
+      if ("" === groupName[i]) {
+        groupName.splice(i, 1);
+        groupName.unshift("");
+        break;
+      }
+    }
+    packChild.childList = childList;
+    packChild.groupName = groupName;
+    return packChild;
+  }
+
+
   reloadScanData = () =>{ //重新刷新账单
     console.log('reload loading')
   }
 
   render () {
-    const {ENV, payway, loading, iconName, showList, showList2, isToggleOn, isToggleOn2 } = this.state;
-    const { home: { hotFood }, 
-           bill: { SettleMode, CS_Name, RoomName,
+    const {ENV, payway, loading, iconName,iconName2, showList, showList2, isToggleOn, isToggleOn2 } = this.state;
+    const { bill: {M_ID,hotFoodList,rechargeList,cardTypeList, SettleMode, CS_Name, RoomName,
             MT_State,DingFangRen,NeedPay,MT_HuaDan_WeiJie,
             ZhangDanMode,WillPayMoney,YuShouJinE ,PayedMoney,
             UseVipNeedPay, getLocation,PayList,MT_HuaDan_HeJi,
@@ -285,17 +429,17 @@ export default class Index extends Component {
           },{
             text:"房台详情",
             iconSrc: "/assets/qujiu@2x.png",
-            directUrl: "/pages/order/index",
+            directUrl: "/pages/roominfo/index",
             show: (MT_State=='I' || MT_State=='S' || MT_State == 'L') && ZW_Right_InputFolio == "1",
           },{
             text:"取酒",
             iconSrc: "/assets/qujiu@2x.png",
-            directUrl: "/pages/order/index",
+            directUrl: "/pages/tokewine/index",
             show: (MT_State=='I' || MT_State=='S' || MT_State == 'L') && ZW_Right_InputFolio == "1"
           },{
             text:"存酒",
             iconSrc: "/assets/cunjiu@2x.png",
-            directUrl: "/pages/order/index",
+            directUrl: "/pages/storewine/index",
             show: (MT_State=='I' || MT_State=='S' || MT_State == 'L') && ZW_Right_InputFolio == "1"
           },{
             text:"个人中心",
@@ -314,7 +458,7 @@ export default class Index extends Component {
             show: false,
                      }] 
     let sumCount = 0;
-    hotFood.map(o => {
+    hotFoodList.map(o => {
       sumCount += Number(o.count||0)
     });
     const HJNum = PayList.filter(obj => obj.F_TaoCanChild == "0").length;
@@ -340,9 +484,9 @@ export default class Index extends Component {
             </View>
           </View>
         </View>
-        <View className='content'>
+        <View className='content' style={{ marginBottom: ZhangDanMode != 0 && Number(NeedPay) + Number(MT_HuaDan_WeiJie) > 0 ? '55PX' : '5PX' }}>
           {/* 账单信息 */}
-          <View className='server_bill' style={{ marginBottom: ZhangDanMode != 0 && Number(NeedPay) + Number(MT_HuaDan_WeiJie) > 0 ? '20PX' : '5PX' }}>
+          <View className='server_bill'>
           {ZhangDanMode != 0 && (Number(NeedPay) > 0 || Number(MT_HuaDan_WeiJie) > 0) &&
            <View >
              <View className="server_bill_title">您有未支付订单</View>
@@ -379,7 +523,8 @@ export default class Index extends Component {
                       </View>
                       {getLocation &&
                         <View className="iconBox" onClick={this.goBillDetail}>
-                          {SettleMode == '0' ? '账单详情' : "订单详情"}<span className={`iconfont  ${iconName}`} style={{ marginLeft: '2px' }}></span>
+                          {SettleMode == '0' ? '账单详情' : "订单详情"}
+                          <AtIcon value={iconName} size='16' color='white'></AtIcon>
                         </View>
                       }          
                    </View>
@@ -388,6 +533,45 @@ export default class Index extends Component {
                {/* 先结模式的账单详情 */}
                {showList != 'none' &&
                 <View className="xiaofei_list">
+                  {PayList.filter(obj => obj.F_TaoCanChild == "0" && obj.F_HuaDanFlag == '0').map((item, i) => (
+                  <View className="itemBox" key={i}>
+                    {item.F_SettleFlag === "0" && CanDelete == 1 && item.CanReturn != '0' && item.F_SettleID == '' &&
+                    <View className="closeBtn">
+ 
+                    </View>}
+                    <View className="line1">
+                    <View className="foodName">
+                      <Text className={item.F_Flag == 'F' ? "zengsong" : "zengsongNO"}>赠</Text>
+                      {item.FoodName.replace(/\s*/g, "")}
+                    </View>
+                    <View className="num">{item.F_Quantity}{item.FD_DanWei}</View>
+                    <View className="price">￥{item.F_Money}</View>
+                  </View>
+                    <View className="line2">
+                    <View className="person">{item.F_InputClerk}&nbsp;{item.F_InputTime > 0 ? "" + formatDate(new Date(item.F_InputTime * 1000), 'hh:mm:ss') : ''}</View>
+                    <View className="taste">{item.F_KouWei}</View>
+                    <View className="flower">
+                      <Text className={item.F_Note == "" ? "zengsongNO" : "zengsong"}>{item.F_Note}</Text>
+                      <Text className={Number(item.ShuLiang || 0) < 0 || Number(item.JinE || 0) < 0 ? "yiReturn" :"yiReturnNo"}>{Number(item.ShuLiang || 0) < 0 || Number(item.JinE || 0) < 0 ? "退单" : ""}</Text>
+                    </View>
+                  </View>
+                   {item.F_TaoCanFlag === "1" && this.getChildList(item).groupName.map((group, i) => (
+                 <View className="line3" key={i}>
+                   <View className="title2">
+                      <Text></Text>{group === "" ? "必点项目" : group}<Text></Text>
+                    </View>
+                   {item.F_TaoCanFlag === "1" && this.getChildList(item).childList.filter(o => o.F_TaoCanGroupName === group).map((packItem, i2) => (
+                   <View className="packItem" key={i2}>
+                     <Text className="itemName">{packItem.FoodName}</Text>
+                     <Text style={{ flex: 1, textAlign: 'center' }}>{packItem.F_Quantity}{packItem.FD_DanWei}</Text>
+                     <Text style={{ flex: 1, textAlign: 'right' }} >
+                      <Text className={Number(packItem.F_Quantity || 0) < 0 || Number(packItem.F_Price || 0) < 0 ? "yiReturn" : "yiReturnNo"}>{Number(packItem.F_Quantity || 0) < 0 || Number(packItem.F_Price || 0) < 0 ? "已退单" : ""}</Text>
+                     </Text>
+                   </View>
+                  ))}
+                 </View>
+                 ))}
+                  </View>)) }
                 </View>
                }
                {/* 支付方式 */}
@@ -466,18 +650,54 @@ export default class Index extends Component {
                      <View style={{flex:1,textAlign:'left'}}>{"花单项目：" + HDNum}项</View>
                      {getLocation &&
                       <View className="iconBox" onClick={this.goBillDetail2}>
-                        {SettleMode == '0' ? '账单详情' : "订单详情"}
-                        {/* 待修改 */}
-                        <Text className={`iconfont  ${iconName2}`} style={{ marginLeft: '2px' }}></Text>
-                      </View>
-                     }
+                       {SettleMode == '0' ? '账单详情' : "订单详情"}
+                       <AtIcon value={iconName2} size='16' color='white'></AtIcon>
+                     </View>
+                    }
                    </View>
                   }
                 </View>
-                 {/* 待完善 花单详情 */}
-                <View></View> 
+                 {/*  花单订单详情 */}
+                {showList2 != 'none' &&
+                 <View className="huadan_list">
+                  {(PayList || []).filter(obj => obj.F_TaoCanChild == "0" && obj.F_HuaDanFlag > 0).map((item, i) => (
+                   <View className="itemBox" key={i}>
+                    <View className="closeBtn"
+                      style={{ display: item.F_SettleFlag === "0" && CanDelete === 1 && item.CanReturn !== '0' ? "block" : "none" }}
+                      onClick={() => this.delRecord(item)}
+                    >
+                     <AtIcon value="close" size='20' ></AtIcon>
+                     </View>
+                    <View className="line1">
+                      <View className="foodName">
+                        <Text className={item.F_Flag === 'F' ? "zengsong" : "zengsongNO"}>赠</Text>
+                        {item.FoodName.replace(/\s*/g, "")}
+                      </View>
+                      <View className="num">{item.F_Quantity}{item.FD_DanWei}</View>
+                      <View className="price">￥{item.F_Price}</View>
+                    </View>  
+                    <View className="line2">
+                       <View className="person">{item.F_InputClerk}&nbsp;{item.F_InputTime > 0 ? "" + formatDate(new Date(item.F_InputTime * 1000), 'hh:mm:ss') : ''}</View>
+                       <View className="taste">{item.F_KouWei}</View>
+                       <View className="flower">
+                        {item.F_HuaDanFlag > 0 &&
+                          <View className="yiren">
+                            <View className="hua">
+                              <image className='img' alt="" src={FlowerImg} />
+                            </View>
+                            {item.F_HuaDanClerk}
+                          </View>
+                        }
+                        <Text className={item.F_Note === "" || item.F_Flag !== 'F' || item.F_Note === undefined ? "zengsongNO" : 'zengsong'}>{item.F_Note}</Text>
+                        <Text className={Number(item.ShuLiang || 0) < 0 || Number(item.JinE || 0) < 0 ? "yiReturn" : "yiReturnNo"}>{Number(item.ShuLiang || 0) < 0 || Number(item.JinE || 0) < 0 ? "退单" : ""}</Text>
+                      </View>
+                    </View>
+                   </View>
+                 ))}
+                 </View> 
+                }
                 {/* 支付方式 */}
-                <View className="payWay" style={{ borderTop: "1px dashed #d1d1d1" }}>
+                <View className="payWay" style={{ borderTop: (isToggleOn2 && SettleMode == '1' || SettleMode == '0') ? "1px dashed #d1d1d1" : "none" }}>
                   <View className="payTitle">支付方式</View>
                   {(YuShouJinE > 0 && YuShouJinE >= MT_HuaDan_WeiJie) ?
                    <PayWay 
@@ -537,9 +757,10 @@ export default class Index extends Component {
             }) }
           </View>
           {/* 热门酒水 */}
-          <View className="server_hotFood">
+          {(ZhangDanMode == 0 || (Number(NeedPay) + Number(MT_HuaDan_WeiJie) <= 0)) && (hotFoodList || []).length > 0 &&
+            <View className="server_hotFood">
              <View className='hot_title'>本店正在火热促销的酒水</View>
-             {hotFood.map((item,index)=>(
+             {hotFoodList.map((item,index)=>(
                <View key={index} className='hot_item'>
                 <View className='hot_item_name'>{item.FD_Name}</View>
                 <View className='hot_item_price'>
@@ -563,6 +784,90 @@ export default class Index extends Component {
                </View>
              ))}
           </View>
+          }
+          {/* 会员卡优惠 */}
+          {cardTypeList.length>0 && <View className="server_buyHuiyuan" id='huiyuan'>
+             <View className="card_title">
+               {/* <Image/> */}
+               本店会员今日充值优惠
+             </View>
+             {(cardTypeList||[]).map((parent,index)=>(
+               <View key={index}>
+                <View style={{background:'white',paddingTop:'8px'}}>
+                   <View className="cardType" 
+                     style={{
+                      background: parent.BackgroundUrl ?
+                        `url(${uploadFileUrl}${parent.BackgroundUrl})`
+                        :
+                        'url(../../assets/vipBg.png)',
+                      backgroundSize: '100% auto',
+                      backgroundRepeat: 'no-repeat'
+                    }}
+                    onClick={()=>{this.goVipDetail(parent)}}
+                  >
+                    <View className="iconBox">
+                      <Image className='imgIcon' alt=""  src={VipCardImg}></Image>
+                    </View>
+                    <View className="typeName">
+                      <View style={{height:'35PX'}} >{parent.VCT_Name}</View>
+                      <View className="no" style={{ fontSize: '16PX',height:'35PX' }}>
+                      {this.findCardNo(parent)}
+                      </View>
+                    </View>
+
+                   </View>
+                 </View>
+               { Number(parent.VCT_StopFlag || 0) === 0 &&
+               <View className="cardList">
+                {(rechargeList || []).filter(obj => obj.VCT_No === parent.VCT_No).map((obj, index) => (
+                  <View className="cardItem" key={obj.VPF_ID + index}>
+                  <View className='line1'>
+                    <Text className="payM">
+                    充值：¥<Text>{obj.VPF_PayMoney}</Text>
+                    </Text>
+                    <Text style={{ fontSize: '16px' }}>
+                    赠送：¥<Text className="payF"> {Number(obj.VPF_FreeMoney) + Number(obj.VPF_FreeFKMoney)}</Text>
+                    </Text>
+                  </View>
+                  {(obj.child || []).map((foodItem, foodIndex) =>
+                    <View key={foodIndex} className="foodGroup">
+                      <Text className="foodGroupCol1">{foodIndex == 0 ? `赠送:` : ''}</Text>
+                      <Text className="foodGroupCol2">{foodItem.FD_Name} </Text>
+                      <Text className="foodGroupCol3">{foodItem.VPFD_Count}{foodItem.FD_DanWei}</Text>
+                    </View>)
+                  }
+                  <View className="line2">
+                    <View className="czBtn">
+                      <View style={{ flex: 1 }}></View>
+                      <View 
+                      className={(M_ID === "" || M_ID === 0) ? "btnBox2" : "btnBox"}
+                      onClick={() => { this.claimCard(this.VipInfoHas(parent), obj, parent) }}>
+                      {(M_ID === "" || M_ID === 0) ? '认领或申请新卡' : this.VipInfoHas(parent) === false ? '申请新卡' : '现在充值'}
+                     </View>
+
+                    </View>
+
+                  </View>
+                </View>
+                ))}
+                {(rechargeList || []).filter(obj => obj.VCT_No === parent.VCT_No).length === 0 &&
+                  <View className="cardItemSimple">
+                  <View className="line1"></View>
+                  <View className="line2">
+                    <View className="czBtn">
+                      <View style={{ flex: 1 }}></View>
+                      <View className={(M_ID === "" || M_ID === 0) ? "btnBox2" : "btnBox"}
+                        onClick={() => { this.claimCard(this.VipInfoHas(parent), {}, parent) }}>
+                        {(M_ID === "" || M_ID === 0) ? '认领或申请新卡' : this.VipInfoHas(parent) === false ? '申请新卡' : '现在充值'}
+                      </View>
+                    </View>
+                  </View>
+                </View> }
+                </View>}
+               </View>
+             ))
+             }
+           </View>}
         </View>
         {sumCount>0 &&
           <AtBadge value={sumCount} maxValue={99} className='cart-badge'>
@@ -577,24 +882,24 @@ export default class Index extends Component {
             <Image mode="aspectFit"  src={IconXiaoFei} className="icon"/>
             <Image mode="aspectFit"  src={IconHuaDanPay} className="icon"/>
             {YuShouJinE > 0 ? (
-               YuShouJinE >= NeedPay ?
+               YuShouJinE >=  (NeedPay + MT_HuaDan_WeiJie)  ?
                <View>
                  {payway=='yajin'&&<>押金抵扣</>}
                  {payway=='vip'&&<>会员卡支付</>}
-                 <Text style={{ fontSize: '20px' }}>{NeedPay}</Text>元
+                 <Text style={{ fontSize: '20px' }}>{(NeedPay + MT_HuaDan_WeiJie)}</Text>元
                </View>:
                <View>
                  押金抵扣<Text style={{ fontSize: '20px' }}>{YuShouJinE}</Text>元+
                  {payway=='wx'&&<>微信支付</>}
                  {payway=='ali'&&<>支付宝支付</>}
                  {payway=='vip'&&<>会员卡支付</>}
-                 <Text style={{ fontSize: '20px' }}>{NeedPay - YuShouJinE}</Text>元
+                 <Text style={{ fontSize: '20px' }}>{(NeedPay + MT_HuaDan_WeiJie) - YuShouJinE}</Text>元
                </View>
             ):(<View>
-                 {payway=='wx'&&<>微信支付</>}
-                 {payway=='ali'&&<>支付宝支付</>}
-                 {payway=='vip'&&<>会员卡支付</>}
-                 <Text style={{ fontSize: '20px' }}>{NeedPay}</Text>元
+                 {payway=='wx'&&<>微信支付合计</>}
+                 {payway=='ali'&&<>支付宝支付合计</>}
+                 {payway=='vip'&&<>会员卡支付合计</>}
+                 <Text style={{ fontSize: '20px' }}>{(NeedPay + MT_HuaDan_WeiJie)}</Text>元
             </View> ) }
          </View>
          }
