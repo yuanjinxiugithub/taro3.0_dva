@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import { guestLogin , getToken, getRealUrl } from '../servies/api'
-import { showToast } from '../utils/taro.utils'
+import { showToast, startPing } from '../utils/taro.utils'
 
 export default {
   namespace: 'home',
@@ -19,14 +19,15 @@ export default {
   },
 
   effects: {
-    *login({payload}, {all, call, put}){
+    *login({payload}, { call, put}){
       const result = yield call(guestLogin,payload);
       if(result.err == 0){
         //获取token
         const tokenRes = yield call(getToken,{OpenID: result.WX.openid})
         Taro.setStorageSync('openid',result.WX.openid)
-        if(tokenRes.err == 0){
+        if(tokenRes.err == 0){ 
           Taro.setStorageSync('token',tokenRes.Token)
+          startPing(); // 通过ping来延长token有效期
         }
         yield put({
           type: 'changeState',
@@ -39,12 +40,20 @@ export default {
       return result;
     },
 
-    *getToken({payload},{all,call,put}){
-      const result = yield call(getToken,payload);
-      // if (token) {//token获取成功成功
-      //   startPing();// 通过ping来延长token有效期
-      // }
-      return result;
+    *reloadToken({payload,callback},{all,call,select}){
+      const OpenID = yield select(model => model.home.OpenID);
+      const result = yield call(getToken, { OpenID });
+      let token = result.Token;
+      if (token) {//token获取成功成功
+        Taro.setStorageSync('token',token)
+        startPing();// 通过ping来延长token有效期
+      }
+      if (!result)
+        return;
+      if (callback) callback(result);
+      if(result.msg && result.msg != ""){
+        showToast(result.msg,'none');
+      }
     },
 
     *getRealUrl({payload,callback},{all,call,put}){
@@ -55,15 +64,6 @@ export default {
       if (result.msg && result.msg !== ''){
         showToast(result.msg,'none');
       }
-    },
-
-    *reloadToken({payload},{all,call,put}){
-      console.log('relodtoken')
-      //start ping
-    },
-    
-    *load({payload}, {all, call, put}) {
-      console.log("dva loading")
     },
 
     *getHotFood({payload}, {all, call, put}){
@@ -104,16 +104,26 @@ export default {
       });
     },
 
-    *changeHotFoodCount({payload}, {all, call, put, select}){
+    *onChangeCount({payload}, {all, call, put, select}){
       const hotFood = yield select(model => model.home.hotFood)
+      const foodList = yield select (model => model.order.foodList)
       let item  = hotFood.find(o => o.FD_ID == payload.id);
+      let item2 = foodList.find(o => o.FD_ID == payload.id)
       if(item){
         item.count = payload.val
       }
+      if(item2){
+        item2.count = payload.val
+      }
       yield put({
         type: 'changeState',
-        hotFood
+        hotFood,
+        foodList
       })
+    },
+
+    *changeShopList({}){
+
     },
   },
 };

@@ -5,7 +5,7 @@ import { View, Text, Image } from '@tarojs/components'
 import Stepper from '../../components/Stepper/index'
 import PayWay from '../../components/PayWay/index'
 import { ENV , WXPay, AliPay, YaJinPay, uploadFileUrl } from '../../utils/const'
-import { showToast, guestClosePay, formatDate, getScanStateString} from '../../utils/taro.utils'
+import { showModal, showToast, guestClosePay, formatDate, getScanStateString} from '../../utils/taro.utils'
 import { tradePay } from '../../utils/utils'
 import { AtBadge, AtAvatar, AtIcon,  } from 'taro-ui'
 import IconXiaoFei from '../../assets/icon_xiaofei.png';
@@ -60,6 +60,8 @@ export default class Index extends Component {
     //   }
     // })
     this.test()
+
+    if(process.env.TARO_ENV != "h5")
     this.getCurLocation();
   }
    
@@ -89,7 +91,7 @@ export default class Index extends Component {
     const { dispatch } = this.props
     dispatch({
       type:'bill/getScanBill',
-      payload: params,
+      payload: {...params },
       callback: res=>{
         if(res.err == 0){
           if (res.KeDianDanFanWei == 0 || ENV === 'localhost') {
@@ -102,6 +104,7 @@ export default class Index extends Component {
         }
         if (res.msg && res.msg !== '') {
 					showModal('提示',res.msg,(res)=>{
+            if(process.env.TARO_ENV == "weapp")
             wx.navigateBack({
               delta: -1
             }); //退出小程序
@@ -167,7 +170,7 @@ export default class Index extends Component {
   onChangeStepper = (val,item)=>{
     const { dispatch } = this.props
     dispatch({
-      type: 'home/changeHotFoodCount',
+      type: 'home/onChangeCount',
       payload: { val , id: item.FD_ID }
     })
   }

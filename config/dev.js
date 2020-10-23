@@ -1,3 +1,6 @@
+const isH5 = process.env.CLIENT_ENV === 'h5'
+const HOST = '"https://login.16931.com/PROD"'
+
 module.exports = {
   env: {
     NODE_ENV: '"development"'
@@ -5,22 +8,20 @@ module.exports = {
   defineConstants: {
   },
   mini: {},
+  defineConstants: {
+    HOST: isH5 ? '"/api"' : HOST,
+  },
   h5: {
     esnextModules: ['taro-ui'],
-    port: 8003,
     devServer: {
-      disableHostCheck: true,
-      host: 'localhost',
-      https: true,
-      open: true,  
       proxy: {
-        '/api': {
-          target: "https://login.16931.com/PROD",
-          changeOrigin: true,
+        '/api/': {
+          target: JSON.parse(HOST),
           pathRewrite: {
             '^/api/': '/'
           },
-        }
+          changeOrigin: true
+        },
       }
     },
   }

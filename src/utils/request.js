@@ -13,7 +13,6 @@ export default function request(url,data,method='POST'){
     url: `${baseURL}${url}`,
     data,
     method,
-    mode: "cors",
     headers: {
       'content-type': 'application/json',
       'Authorization': 'Bearer 125528671366803456',

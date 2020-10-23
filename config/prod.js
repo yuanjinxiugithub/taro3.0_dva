@@ -15,6 +15,8 @@ module.exports = {
      * }
      */
     devServer: {
+      host: 'localhost',
+      port: 10086,
       proxy: {
         '/api': {
           "target": "https://login.16931.com/PROD",

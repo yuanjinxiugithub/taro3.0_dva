@@ -37,12 +37,25 @@ export default class Index extends Component {
         break;
       case 3:
         break;
+      case 4:
+        url = '/pages/webview/index'
+          break;
+      case 5: 
+        url = "/pages/native/native"
+        break;
+      case 6: 
+        url = "/pages/echarts/index"
+        break;
+      case 7: 
+        url = "/pages/map/index"
+        break;
       default:
         break  
     }
     if(url != "")
     Taro.navigateTo({url});
   }
+
   onChange = (item) => {
     console.log(item)
   }
@@ -54,11 +67,13 @@ export default class Index extends Component {
        <AtButton className="btn" onClick={()=>{this.onScan(1)}}>扫码结账</AtButton>
        <AtButton className="btn" onClick={()=>{this.onScan(2)}}>扫码存酒</AtButton>
        <AtButton className="btn" onClick={()=>{this.onScan(3)}}>扫码取酒</AtButton>
-       {/* <PayWay
-         wayList ={payway}
-         checkedValue="wx"
-       >
-       </PayWay> */}
+       <AtButton className="btn" onClick={()=>{this.onScan(4)}}>WebView</AtButton>
+       {
+         process.env.TARO_ENV === 'weapp'  &&
+         <AtButton className="btn" onClick={()=>{this.onScan(5)}}>微信小程序原生</AtButton>
+       }
+        <AtButton className="btn" onClick={()=>{this.onScan(6)}}>Echarts</AtButton>
+        <AtButton className="btn" onClick={()=>{this.onScan(7)}}>地图</AtButton>
       </View>
     )
   }

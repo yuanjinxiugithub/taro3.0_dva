@@ -15,10 +15,14 @@ export const  getAuthCode = (successCallBack) =>{
 /**
  * request 请求
  */
-export const request = (url,data,method='POST') => {
+export const request = (url,data,method='POST',isShowMask = false) => {
   let token = wx.getStorageSync('token');
   let header = {'content-type': 'application/json'}
   header['authorization'] = 'Bearer '+ token;
+  if (isShowMask) {
+    wx.hideLoading();
+    wx.showLoading({ title: '加载中', mask: true });
+}
   return new Promise((resolve,reject) => {
     wx.request({
       url: `${baseURL}${url}`,
@@ -30,6 +34,7 @@ export const request = (url,data,method='POST') => {
       complete: res => {}
     });
   }).then(res => {
+   wx.hideLoading();
   let { statusCode } = res;
   if (statusCode >= 200 && statusCode < 300) {
     return res.data;

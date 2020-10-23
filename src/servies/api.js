@@ -28,7 +28,7 @@ export const getFoodType = async (params) => {
 }
 
 export const getFoodList = async (params) => {
-  return request(API.getFoodList,params,"GET")
+  return request(API.getFoodList,params,"GET",true)
 }
 
 export const getRealUrl = async(params) => {
@@ -36,7 +36,7 @@ export const getRealUrl = async(params) => {
 }
 
 export const getScanBill = async(params) => {
-  return request(API.guestScan,params)
+  return request(API.guestScan,params,"POST",true)
 }
 
 export const guestCheckPay = async(params) =>{

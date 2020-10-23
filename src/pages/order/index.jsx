@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-indent-props */
 import  React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
-import { View, Text , ScrollView } from '@tarojs/components'
+import { View, Text , ScrollView, Image, Button } from '@tarojs/components'
 import Stepper from '../../components/Stepper/index'
+import { AtSearchBar } from 'taro-ui'
 import classNames  from 'classnames';
 import { uploadFileUrl } from '../../utils/const'
 import './index.scss'
@@ -10,6 +12,10 @@ import './index.scss'
   order, loading
 }))
 export default class Index extends Component {
+  static options = {
+    addGlobalClass: true
+  }
+
   constructor(props){
     super(...arguments);
     this.state = {
@@ -17,7 +23,8 @@ export default class Index extends Component {
       scrollFoodTop: 0,
       scrollTop: 20,
       scrollIntoView: '',
-      scrollIntoView2: ''
+      scrollIntoView2: '',
+      searchVal: "",
     };
   }
   anchorMap = []
@@ -30,7 +37,7 @@ export default class Index extends Component {
   }
 
   componentDidMount () {
-    setTimeout(this.calcHeight,2000);
+    setTimeout(this.calcHeight,1000);
   }
 
   componentWillUnmount () { }
@@ -63,15 +70,11 @@ export default class Index extends Component {
   onChangeStepper = (val,item)  => {
     const { dispatch } = this.props
     dispatch({
-      type: 'order/onChangeCount',
-      payload: { count: val , id: item.FT_ID},
+      type: 'home/onChangeCount',
+      payload: { val: val , id: item.FD_ID},
       callback: res => {
       }
     });
-  }
-
-  onScroll = (e) => { //菜单滚动 -- 暂无用
-
   }
 
   onScrollFood =(e) => {
@@ -83,37 +86,50 @@ export default class Index extends Component {
     });
   }
 
+  onSearch = (v) => {
+    this.setState({searchVal:v})
+  }
+
+  onActionClick () {
+    console.log('开始搜索')
+  }
+   
   render () {
     const { order:{ foodType, foodList } } =  this.props;
-    const { activeMenu, scrollFoodTop, scrollIntoView, scrollIntoView2} = this.state
+    const { searchVal, activeMenu, scrollFoodTop, scrollIntoView, scrollIntoView2} = this.state
+    let sumCount = 0;
+    foodList.map(o => {
+      sumCount += Number(o.count||0);
+    })
     return (
       <View className='page'>
-        <View className='page_left'>
-        <ScrollView
-          className="scrollView"
-          scrollY
-          scrollWithAnimation
-          onScroll = {this.onScroll}
-          scrollIntoView = {scrollIntoView}
-          >
-         {foodType.map((item,index) => (
-            <View  
-            id={`menu_${index}`}
-            className={
-              classNames({
-              ["page_left_menu_item"]: true,
-              ["page_left_menu_item_active"]: activeMenu == "" ? index == 0: activeMenu == item.FT_ID,
-            })}
-            key={item.FT_ID}
-            onClick={() => { this.onClickMenu(item,index)}}
+        <View className="page_content">
+          <View className='page_left'>
+            <ScrollView
+            className="scrollView"
+            scrollY
+            scrollWithAnimation
+            onScroll = {this.onScroll}
+            scrollIntoView = {scrollIntoView}
             >
-             {item.FT_Name}
-            </View>
-            ))
-          }
-          </ScrollView>
-        </View>
-        <View className="page_right">
+          {foodType.map((item,index) => (
+              <View  
+              id={`menu_${index}`}
+              className={
+              classNames({
+                ["page_left_menu_item"]: true,
+                ["page_left_menu_item_active"]: activeMenu == "" ? index == 0: activeMenu == item.FT_ID,
+              })}
+              key={item.FT_ID}
+              onClick={() => { this.onClickMenu(item,index)}}
+              >
+              {item.FT_Name}
+              </View>
+              ))
+            }
+            </ScrollView>
+          </View>
+          <View className="page_right">
           <ScrollView
           className="scrollView2"
           scrollY
@@ -127,7 +143,6 @@ export default class Index extends Component {
             id={`id_${index}`}
             className="page_right_food" 
             key={item.FT_Name}
-            onTouchMove={e => this.onTouchMove(e)}
             >
               <View 
                className="page_right_food_type"
@@ -139,10 +154,10 @@ export default class Index extends Component {
               {foodList.filter(o => o.FT_ID == item.FT_ID).map((food,index)=>(
                  <View className="page_right_food_item" key={food.FD_ID}>
                     <View className="page_right_food_item_left">
-                      <image 
+                      <Image 
                       className="page_right_food_item_left_img" 
                       alt="" 
-                      src={food.FD_PicUID == ""? "https://jdc.jd.com/img/200": uploadFileUrl+food.FD_PicUID+"?x-oss-process=image/resize,m_fill,h_128,w_140"}></image>
+                      src={food.FD_PicUID == ""? "https://jdc.jd.com/img/200": uploadFileUrl+food.FD_PicUID+"?x-oss-process=image/resize,m_fill,h_128,w_140"}></Image>
                     </View>
                     <View className="page_right_food_item_right">
                       <View className="page_right_food_item_right_name">
@@ -159,11 +174,11 @@ export default class Index extends Component {
                         <Stepper
                         value={0}
                         min={0}
-                        max={10}
+                        max={999}
                         inputWidth='100PX'
-                        value={Number(item.count||0)}
+                        value={Number(food.count||0)}
                         readOnly ={false}
-                        onChange={(val) => this.onChangeStepper(val,item)}
+                        onChange={(val) => this.onChangeStepper(val,food)}
                         />
                       </View>
                     </View>
@@ -172,6 +187,24 @@ export default class Index extends Component {
             </View>
           ))}
           </ScrollView>
+        </View>
+        </View>
+        <View className="page_footer">
+          <View className="search">
+           <AtSearchBar
+              value={searchVal}
+              onChange={this.onSearch}
+              className="serachbar"
+              showActionButton={true}
+            />
+          </View>
+          <View className="shopcar">
+            <Button className='shopbtn'  size='mini'>
+              购物车
+             {sumCount>0 && sumCount < 99 && <>({sumCount})</>}
+             {sumCount >= 99 && <>(99+)</>}
+            </Button>
+          </View>
         </View>
       </View>
     )

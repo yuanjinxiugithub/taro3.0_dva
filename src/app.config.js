@@ -13,6 +13,10 @@ export default {
     'pages/storewine/index', //存酒
     'pages/paybyvip/index', //会员卡支付
     'pages/applyVip/index', //申请新卡
+    'pages/webview/index', //申请新卡
+    'pages/native/native', //微信小程序 原生代码
+    'pages/echarts/index', //引入微信小程序 第三方插件 echarts
+    'pages/map/index', // 地图插件
   ],
   window: {
     backgroundTextStyle: 'light',

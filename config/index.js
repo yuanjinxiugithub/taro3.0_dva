@@ -69,6 +69,9 @@ const config = {
         '/api': {
           "target": "https://login.16931.com/PROD",
           "changeOrigin": true,
+          "pathRewrite": {
+            '^/api/': '/'
+          },
         }
       }
     },

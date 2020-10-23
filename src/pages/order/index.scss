@@ -1,9 +1,18 @@
 @import "~taro-ui/dist/style/components/divider.scss";
+@import "~taro-ui/dist/style/components/search-bar.scss";
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+$redColor: #ec5d4f;
 .page{
   background-color: #efeff4;
   display: flex;
   position: relative;
   overflow: auto;
+  .page_content{
+    display: flex;
+    position: relative;
+    overflow: auto;
+  }
   .page_left{
     position: fixed;
     width: 168px;
@@ -82,7 +91,7 @@
       .page_right_food_item_right{
         flex: 1;
         .page_right_food_item_right_name{
-          font-size: 20PX;
+          font-size: 17.5PX;
           color: #000;
           overflow: hidden; 
           margin-bottom: 3px;
@@ -109,6 +118,49 @@
           align-items:center;
         }
       }
+    }
+  }
+  .page_footer{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 45PX;
+    line-height:  45PX;
+    display: flex;
+    background-color: white;
+    border-top: 1px solid #efeff4;
+  }
+  .search{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .serachbar{
+      flex: 1;
+    }
+    .serachbar .at-search-bar{
+      padding: 0;
+    }
+    .serachbar .at-search-bar__action{
+      background-color: $redColor;
+      height: 33PX;
+      line-height: 33PX;
+    }
+    
+  }
+  .shopcar{
+    width: 95PX;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .shopbtn{
+      height: 33PX;
+      line-height: 33PX;
+      background-color: $redColor;
+      color: white;
+      padding: 0;
+      min-width: 86PX;
     }
   }
 }

@@ -21,17 +21,6 @@ export function  showModal (title,content,callback){
   });
 }
 
-export function startPing(){
-  if (pingInterval)
-  clearInterval(pingInterval);  
-  pingInterval = setInterval(()=>{    
-  window.g_app._store.dispatch({
-    type: 'home/reloadToken', 
-    params: {},              
-  })
-}, 1000 * 60);  
-}
-
 //扫码解析url中的state参数
 export function getScanStateString(href,name) {
   let ary = href.split('?');
@@ -94,4 +83,20 @@ export const formatDate = (date, fmt) => {
       }
   }
   return fmt
+}
+
+let pingInterval = null;
+export const startPing = () => {
+  if (pingInterval)
+  clearInterval(pingInterval);  
+  pingInterval = setInterval(()=>{    
+      window.g_store.dispatch({
+        type: 'home/reloadToken', 
+        params: {},              
+      })
+    }, 1000 * 60);  
+}
+
+export const add = (x,y) =>{
+  return x+y
 }

@@ -444,7 +444,7 @@ $redColor: #ec5d4f;
         }
         .hot_item_price{
           display: flex;
-          padding: 3PX 8PX;
+          padding: 3PX 8PX  3PX 5PX;
           .hot_item_price_old{
             font-size: 15PX;
             font-weight: 400;
@@ -461,7 +461,7 @@ $redColor: #ec5d4f;
         }
         .hot_item_operate{
           display: flex;
-          padding: 6PX 5PX 6PX 16PX;
+          padding: 6PX 8PX 6PX 5PX;
           .hot_item_operate_ms{
             border: 1PX solid #e86054;
             border-radius: 2PX;

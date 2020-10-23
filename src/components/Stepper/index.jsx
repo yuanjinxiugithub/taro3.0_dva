@@ -2,9 +2,10 @@ import React , { Component } from 'react'
 import PropTypes from 'prop-types';
 import { View, Input } from '@tarojs/components'
 import classNames  from 'classnames';
+import { AtIcon } from 'taro-ui'
 import './index.scss'
 
-export default class index extends React.Component {
+export default class index extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -81,21 +82,21 @@ export default class index extends React.Component {
           ['isNone']: value <= min && !showNumber
         })}
       >
-        -
+        <AtIcon value="subtract" size="17"  color="#ec5d4f"></AtIcon>
       </View>
       <View 
         className={classNames({
           ["stepper-input-warp"]: true,
           ['isNone']: value <= min && !showNumber
         })}
-        >
+      >
         <Input 
-        className='stepper-input-warp-value'
-        type='number'
-        value={value} 
-        disabled={readOnly} 
-        onInput={this.onChangeValue}
-        onBlur={this.onBlurValue}
+          className="stepper-input-warp-value"
+          type="number"
+          value={value} 
+          disabled={readOnly} 
+          onInput={this.onChangeValue}
+          onBlur={this.onBlurValue}
         />
       </View>
       <View 
@@ -104,7 +105,8 @@ export default class index extends React.Component {
           ["isDisabled"]: this.maxDisabled()
         })}
         onClick={()=>{this.onClickOperate('up')}}
-      >+
+      >
+        <AtIcon value="add" size="17" color="#fff"></AtIcon>
       </View>
     </View>)
   }

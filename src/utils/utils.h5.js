@@ -1,9 +1,11 @@
 import Taro from '@tarojs/taro'
-import { baseURL } from './const'
+
+/* eslint-disable */
+export const host = HOST
 
 export const getAuthCode = (successCallBack) =>{
   console.log('h5 getAuthCode 登陆接口...');
-  successCallBack("aabbcc")
+  successCallBack("aabbccdd")
 }
 
 /**
@@ -11,11 +13,11 @@ export const getAuthCode = (successCallBack) =>{
  */
 export const request = (url,data,method='POST') => {
   let token =  Taro.getStorageSync('token');
-  let header = {'content-type': 'application/x-www-form-urlencoded'}
+  let header = {'content-type': 'application/json'}
   header['authorization'] = 'Bearer '+ token;
   return Taro.request({
-    url: `api${url}`,
-    data,
+    url: `${host}${url}`,
+    data: data,
     method,
     header
   }).then((res) => {
