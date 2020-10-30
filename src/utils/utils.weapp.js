@@ -23,6 +23,16 @@ export const request = (url,data,method='POST',isShowMask = false) => {
     wx.hideLoading();
     wx.showLoading({ title: '加载中', mask: true });
 }
+  let params = '';
+  if(method == "POST"){
+    if (data.hasOwnProperty('page')){
+      params = (params===''?`?page=${data.page}`:`${params}&page=${data.page}`);
+    }
+    if (data.hasOwnProperty('size')){
+      params = (params===''?`?size=${data.size}`:`${params}&size=${data.size}`);
+    } 
+    url = url+params;
+  }
   return new Promise((resolve,reject) => {
     wx.request({
       url: `${baseURL}${url}`,

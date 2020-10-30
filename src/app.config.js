@@ -19,10 +19,11 @@ export default {
     'pages/map/index', // 地图插件
   ],
   window: {
-    backgroundTextStyle: 'light',
+    backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: '闲娱汇',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+    enablePullDownRefresh: true
   },
   tabBar: {
     "color": "#7A7E83",

@@ -2,7 +2,7 @@
 //import '@tarojs/async-await'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import Taro from '@tarojs/taro'
+
 
 import { baseURL } from './utils/const'
 import { getAuthCode } from './utils/utils'

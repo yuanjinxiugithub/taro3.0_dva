@@ -11,6 +11,7 @@ const API = {
   getRechargeList: '/system/vipCardType/rechargeList',//咨客收银-会员卡充值列表
   getVipCardList: '/system/vipCardType/list',//咨客收银-会员卡类型列表
   getPromotionList: '/guest/promotion',//酒水促销列表
+  getActorList: '/guest/performer', //花单人员列表
 
 }
 
@@ -59,4 +60,8 @@ export const getVipCardList = async(params)=>{
 }
 export const getPromotionList = async(params)=>{
   return request(API.getPromotionList,params)
+}
+
+export const getActorList = async(params) => {
+  return request(API.getActorList,params)
 }

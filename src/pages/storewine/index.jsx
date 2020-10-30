@@ -35,7 +35,6 @@ export default class Index extends Component {
   render () {
     return (
       <View className='page'>
-       存酒
       </View>
     )
   }

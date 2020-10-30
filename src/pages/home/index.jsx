@@ -34,8 +34,10 @@ export default class Index extends Component {
         url = '/pages/scanbill/index'
         break;
       case 2:
+        url = '/pages/storewine/index'
         break;
       case 3:
+        url = '/pages/tokewine/index'
         break;
       case 4:
         url = '/pages/webview/index'
@@ -66,7 +68,7 @@ export default class Index extends Component {
       <View className='page'>
        <AtButton className="btn" onClick={()=>{this.onScan(1)}}>扫码结账</AtButton>
        <AtButton className="btn" onClick={()=>{this.onScan(2)}}>扫码存酒</AtButton>
-       <AtButton className="btn" onClick={()=>{this.onScan(3)}}>扫码取酒</AtButton>
+       <AtButton className="btn" onClick={()=>{this.onScan(3)}}>取酒</AtButton>
        <AtButton className="btn" onClick={()=>{this.onScan(4)}}>WebView</AtButton>
        {
          process.env.TARO_ENV === 'weapp'  &&
